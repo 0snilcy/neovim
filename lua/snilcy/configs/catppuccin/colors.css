@@ -1,0 +1,30 @@
+ .color_palette  {
+	color: #F2D5CF;  /* rosewater */
+	color: #EEBEBE;  /* flamingo */
+	color: #F4B8E4;  /* pink */
+	color: #CA9EE6;  /* mauve */
+	color: #E78284;  /* red */
+	color: #EA999C;  /* maroon */
+	color: #EF9F76;  /* peach */
+	color: #E5C890;  /* yellow */
+	color: #A6D189;  /* green */
+	color: #81C8BE;  /* teal */
+	color: #99D1DB;  /* sky */
+	color: #85C1DC;  /* sapphire */
+	color: #8CAAEE;  /* blue */
+	color: #BABBF1;  /* lavender */
+
+	color: #c6d0f5;  /* text */
+	color: #b5bfe2;  /* subtext1 */
+	color: #a5adce;  /* subtext0 */
+	color: #949cbb;  /* overlay2 */
+	color: #838ba7;  /* overlay1 */
+	color: #737994;  /* overlay0 */
+	color: #626880;  /* surface2 */
+	color: #51576d;  /* surface1 */
+	color: #414559;  /* surface0 */
+
+	color: #303446;  /* base */
+	color: #292C3C;  /* mantle */
+	color: #232634;  /* crust */
+ }

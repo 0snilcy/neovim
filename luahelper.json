@@ -1,0 +1,16 @@
+{
+    "BaseDir": "./",
+    "ShowWarnFlag": 1,
+    "ReferMatchPathFlag": 0,
+    "IgnoreFileNameVarFlag": 0,
+    "ProjectFiles": [],
+    "IgnoreModules": [],
+    "IgnoreFileVars": [],
+    "IgnoreReadFiles": [],
+    "IgnoreErrorTypes": [],
+    "IgnoreFileOrFloder": [],
+    "IgnoreFileErr": [],
+    "IgnoreFileErrTypes": [],
+    "ProtocolVars": [],
+    "PathSeparator": "."
+}
