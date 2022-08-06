@@ -21,10 +21,6 @@ local function on_attach(client, bufnr)
 
 	require("snilcy.configs.lsp.highlighting").setup(client)
 	require("snilcy.configs.lsp.null-ls.formatters").setup(client, bufnr)
-
-	if client.name == "tsserver" then
-		require("typescript").setup()
-	end
 end
 
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())

@@ -3,23 +3,27 @@ local M = {}
 vim.o.completeopt = "menu,menuone,noselect"
 
 function M.setup()
-	local has_words_before = function()
-		local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-		return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-	end
+	-- local has_words_before = function()
+	-- 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	-- 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+	-- end
 
 	local luasnip = require("luasnip")
 	local cmp = require("cmp")
-	local use_lsp_config = false
+
+	if not cmp then
+		return
+	end
+	-- local use_lsp_config = false
 	local lspkind = require("lspkind")
 
-	local lsp_config_full = {
-		config = {
-			sources = {
-				-- { name = "nvim_lsp" }
-			},
-		},
-	}
+	-- local lsp_config_full = {
+	-- 	config = {
+	-- 		sources = {
+	-- 			-- { name = "nvim_lsp" }
+	-- 		},
+	-- 	},
+	-- }
 
 	local default_config = {
 		{ name = "nvim_lsp" },
@@ -27,18 +31,18 @@ function M.setup()
 		{ name = "path" },
 		{ name = "nvim_lua" },
 		{ name = "treesitter" },
+		{ name = "luasnip" },
 		-- { name = "nvim_lsp_signature_help" },
-		-- { name = "luasnip" },
 		-- { name = "spell" },
 		-- { name = "emoji" },
 		-- { name = "calc" },
 	}
 
-	local default_config_full = {
-		config = {
-			sources = default_config,
-		},
-	}
+	-- local default_config_full = {
+	-- 	config = {
+	-- 		sources = default_config,
+	-- 	},
+	-- }
 
 	cmp.setup({
 		completion = {
@@ -95,13 +99,16 @@ function M.setup()
 				"i",
 				"c",
 			}),
-			["<C-Space>"] = cmp.mapping(function()
-				use_lsp_config = not use_lsp_config
-				return cmp.complete(use_lsp_config and lsp_config_full or default_config_full)
-			end),
-			["<A-e>"] = cmp.mapping(function()
-				cmp.mapping.close()
-			end),
+			-- ["<C-Space>"] = cmp.mapping(function()
+			-- 	use_lsp_config = not use_lsp_config
+			-- 	return cmp.complete(use_lsp_config and lsp_config_full or default_config_full)
+			-- end),
+			["<C-e>"] = cmp.mapping(cmp.mapping.close(), {
+				"i",
+				"c",
+				"n",
+			}),
+
 			["<CR>"] = cmp.mapping({
 				i = cmp.mapping.confirm({
 					behavior = cmp.ConfirmBehavior.Replace,

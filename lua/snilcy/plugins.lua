@@ -79,7 +79,6 @@ packer.startup(function(use)
 	-- LSP
 	use({
 		"neovim/nvim-lspconfig",
-
 		requires = {
 			"folke/lua-dev.nvim",
 			"williamboman/nvim-lsp-installer",
@@ -199,12 +198,14 @@ packer.startup(function(use)
 		end,
 	})
 
-	use({
-		"kyazdani42/nvim-tree.lua",
-		requires = "kyazdani42/nvim-web-devicons",
-		config = require("snilcy.configs.nvim-tree"),
-	})
+	-- use({
+	-- 	"kyazdani42/nvim-tree.lua",
+	-- 	requires = "kyazdani42/nvim-web-devicons",
+	-- 	-- tag = "nightly",
+	-- 	-- config = require("snilcy.configs.nvim-tree"),
+	-- })
 
+	use({ "ms-jpq/chadtree", branch = "chad", run = "python3 -m chadtree deps" })
 	-- use 'majutsushi/tagbar'
 
 	-- use 'sheerun/vim-polyglot'
@@ -400,4 +401,38 @@ packer.startup(function(use)
 			require("snilcy.configs.catppuccin").setup()
 		end,
 	})
+
+	use({
+		"mfussenegger/nvim-dap",
+		module = { "dap" },
+		requires = {
+			"Pocco81/DAPInstall.nvim",
+			"theHamsta/nvim-dap-virtual-text",
+			"rcarriga/nvim-dap-ui",
+			"nvim-telescope/telescope-dap.nvim",
+			-- "mfussenegger/nvim-dap-python",
+			-- { "leoluz/nvim-dap-go", module = "dap-go" },
+			-- { "jbyuki/one-small-step-for-vimkind", module = "osv" },
+		},
+		config = function()
+			require("snilcy.configs.dap").setup()
+		end,
+	})
+	use({
+		"mxsdev/nvim-dap-vscode-js",
+		requires = {
+			"mfussenegger/nvim-dap",
+			-- {
+			-- 	"microsoft/vscode-js-debug",
+			-- 	opt = true,
+			-- 	run = "npm install --legacy-peer-deps && npm run compile",
+			-- },
+		},
+	})
+
+	use({ "stevearc/dressing.nvim" })
+	-- 	config = function()
+	-- 		require("snilcy.configs.vimspector").setup()
+	-- 	end,
+	-- })
 end)

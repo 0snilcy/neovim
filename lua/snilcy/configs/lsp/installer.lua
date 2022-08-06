@@ -32,7 +32,7 @@ local servers = {
 				},
 				diagnostics = {
 					-- Get the language server to recognize the `vim` global
-					globals = { "vim", "use" },
+					globals = { "vim", "use", "pairs" },
 				},
 				workspace = {
 					library = vim.api.nvim_get_runtime_file("", true),
@@ -61,7 +61,13 @@ function M.setup(options)
 				-- local coq = require "coq"
 				-- server:setup(coq.lsp_ensure_capabilities(opts))
 
-				server:setup(opts or {})
+				if server.name == "tsserver" then
+					require("typescript").setup({
+						server = opts,
+					})
+				else
+					server:setup(opts or {})
+				end
 			end)
 
 			if not server:is_installed() then

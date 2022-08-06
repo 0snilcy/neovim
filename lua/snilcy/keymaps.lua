@@ -3,11 +3,13 @@ local map = vim.api.nvim_set_keymap
 local silent_opts = {
 	noremap = true,
 	silent = false,
- } -- default
+} -- default
+
 local noisy_opts = {
 	noremap = true,
 	silent = false,
- } -- with logs
+} -- with logs
+
 -- local expr_opts = {
 -- 	noremap = true,
 -- 	expr = true,
@@ -30,8 +32,8 @@ map("v", "p", "\"_dP", silent_opts)
 map("n", "<ESC>", ":nohlsearch<Bar>:echo<CR>", silent_opts)
 
 -- Move selected line / block of text in visual mode
-map("x", "K", ":move '<-2<CR>gv-gv", silent_opts)
-map("x", "J", ":move '>+1<CR>gv-gv", silent_opts)
+-- map("x", "K", ":move '<-2<CR>gv-gv", silent_opts)
+-- map("x", "J", ":move '>+1<CR>gv-gv", silent_opts)
 
 map("n", "<C-k>", "<C-e>", silent_opts)
 map("n", "<C-j>", "<C-y>", silent_opts)
@@ -49,10 +51,11 @@ map("n", "<C-j>", "<C-y>", silent_opts)
 --   noisy_opts
 -- )
 
-map("", "<C-q>", ":NvimTreeClose<CR><Esc>:q!<CR>", silent_opts)
-map("n", "<C-s>", ":w!<CR>", silent_opts)
+map("", "<C-q>", "<Esc>:wqall!<CR>", silent_opts)
+map("n", "<C-s>", "<Esc>:w!<CR>", silent_opts)
 map("i", "<C-s>", "<Esc>:w!<CR>", silent_opts)
-map("", "<C-w>", "<Esc>:bd!<CR>:bprevious<CR>", silent_opts)
+map("i", "<C-z>", "u", silent_opts)
+map("", "<C-w>", "<Esc>:w!<CR>:bdelete!<CR>", silent_opts)
 
 -- map("", "<A-e>", ":NvimTreeRefresh<CR>:NvimTreeOpen<CR>", silent_opts)
 
@@ -81,3 +84,6 @@ map("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>", silent_opts)
 map("n", "]d", ":lua vim.diagnostic.goto_next()<CR>", silent_opts)
 map("n", "[e", ":lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>", silent_opts)
 map("n", "]e", ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<CR>", silent_opts)
+
+map("", "<A-o>", "o<Esc>", silent_opts)
+map("", "<A-O>", "O<Esc>", silent_opts)

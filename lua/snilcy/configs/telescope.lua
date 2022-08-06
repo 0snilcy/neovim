@@ -15,6 +15,19 @@ local nvb_actions = transform_mod({
 		require("utils").info("File path is yanked ")
 		require("telescope.actions").close(prompt_bufnr)
 	end,
+	command = function(prompt_bufnr)
+		-- Get selected entry and the file full path
+		local content = require("telescope.actions.state").get_selected_entry()
+		-- local full_path = content.cwd .. require("plenary.path").path.sep .. content.value
+		--
+
+		-- Yank the path to unnamed register
+		vim.fn.setreg("\"", content.value)
+
+		-- Close the popup
+		require("utils").info("Content is yanked ")
+		require("telescope.actions").close(prompt_bufnr)
+	end,
 })
 
 function M.setup()
@@ -23,23 +36,15 @@ function M.setup()
 
 	telescope.setup({
 		defaults = {
-			find_command = {
-				"fd",
-				"--type",
-				"f",
-				"--hidden",
-				"-E=.git",
-				".",
-			},
-			vimgrep_arguments = {
-				"rg",
-				"--color=never",
-				"--no-heading",
-				"--with-filename",
-				"--line-number",
-				"--column",
-				"--smart-case",
-			},
+			-- vimgrep_arguments = {
+			-- 	"rg",
+			-- 	"--color=never",
+			-- 	"--no-heading",
+			-- 	"--with-filename",
+			-- 	"--line-number",
+			-- 	"--column",
+			-- 	"--smart-case",
+			-- },
 			color_devicons = true,
 			sorting_strategy = "ascending",
 			layout_strategy = "horizontal",
@@ -105,6 +110,16 @@ function M.setup()
 						["<C-y>"] = nvb_actions.file_path,
 					},
 				},
+				find_command = {
+					"fd",
+					"--type",
+					"f",
+					"--exclude",
+					".git",
+					"--hidden",
+					-- "--no-ignore",
+					-- ".",
+				},
 			},
 			git_files = {
 				mappings = {
@@ -113,6 +128,16 @@ function M.setup()
 					},
 					i = {
 						["<C-y>"] = nvb_actions.file_path,
+					},
+				},
+			},
+			search_history = {
+				mappings = {
+					n = {
+						["y"] = nvb_actions.command,
+					},
+					i = {
+						["<C-y>"] = nvb_actions.command,
 					},
 				},
 			},
