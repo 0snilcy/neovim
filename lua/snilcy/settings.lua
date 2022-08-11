@@ -3,14 +3,27 @@ local g = vim.g -- global variables
 local o = vim.o
 local api = vim.api
 local fn = vim.fn
-local opt = vim.opt -- global/buffer/windows-scoped options
+local opt = vim.opt
 
 g.loaded_perl_provider = 0
 g.loaded_ruby_provider = 0
 g.ignorecase = true
 g.smartcase = true
 
-opt.clipboard = "unnamedplus"
+-- opt.clipboard = "unnamedplus"
+
+vim.g.clipboard = {
+	name = "win32yank-wsl",
+	copy = {
+		["+"] = "win32yank.exe -i --crlf",
+		["*"] = "win32yank.exe -i --crlf",
+	},
+	paste = {
+		["+"] = "win32yank.exe -o --crlf",
+		["*"] = "win32yank.exe -o --crlf",
+	},
+	cache_enable = 0,
+}
 
 opt.spelllang = {
 	"en_us",
@@ -178,7 +191,7 @@ opt.backup = false
 opt.backupext = ".bak"
 
 api.nvim_create_autocmd({ "WinEnter" }, {
-	callback = function(data)
+	callback = function()
 		local wins = api.nvim_list_wins()
 		for _, win_id in ipairs(wins) do
 			local config = api.nvim_win_get_config(win_id)

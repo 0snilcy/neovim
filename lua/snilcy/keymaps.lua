@@ -1,4 +1,5 @@
-local map = vim.api.nvim_set_keymap
+-- local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 
 local silent_opts = {
 	noremap = true,
@@ -26,7 +27,7 @@ map("", "<left>", ":echoe \"Use h\"<CR>", noisy_opts)
 map("", "<right>", ":echoe \"Use l\"<CR>", noisy_opts)
 
 -- Paste over currently selected text without yanking it
-map("v", "p", "\"_dP", silent_opts)
+-- map("v", "p", "\"_dP", silent_opts)
 
 -- Cancel search highlighting with ESC
 map("n", "<ESC>", ":nohlsearch<Bar>:echo<CR>", silent_opts)
@@ -38,36 +39,14 @@ map("n", "<ESC>", ":nohlsearch<Bar>:echo<CR>", silent_opts)
 map("n", "<C-k>", "<C-e>", silent_opts)
 map("n", "<C-j>", "<C-y>", silent_opts)
 
--- map('', '<A-p>s', ':PackerSync<CR>', silent_opts)
-
--- map('', '<A-c>r',
---   ':source ~/.config/nvim/init.lua<CR>' ..
---   ':source ~/.config/nvim/lua/snilcy/keymaps.lua<CR>' ..
---   ':source ~/.config/nvim/lua/snilcy/plugins.lua<CR>' ..
---   ':source ~/.config/nvim/lua/snilcy/settings.lua<CR>' ..
---   ':source ~/.config/nvim/lua/snilcy/configs/nvim-tree.lua<CR>' ..
---   ':source ~/.config/nvim/lua/snilcy/configs/whichkey.lua<CR>' ..
---   ':echo "Configs have reloaded!"<CR>',
---   noisy_opts
--- )
-
 map("", "<C-q>", "<Esc>:wqall!<CR>", silent_opts)
-map("n", "<C-s>", "<Esc>:w!<CR>", silent_opts)
-map("i", "<C-s>", "<Esc>:w!<CR>", silent_opts)
+map({ "n", "i" }, "<C-s>", "<Esc>:w!<CR>", silent_opts)
 map("i", "<C-z>", "u", silent_opts)
-map("", "<C-w>", "<Esc>:w!<CR>:bdelete!<CR>", silent_opts)
-
--- map("", "<A-e>", ":NvimTreeRefresh<CR>:NvimTreeOpen<CR>", silent_opts)
+map("", "<C-w>", "<Esc>:bdelete!<CR>", silent_opts)
 
 map("", "<A-j>", ":BufferLineCyclePrev<CR>", silent_opts)
 map("", "<A-k>", ":BufferLineCycleNext<CR>", silent_opts)
 map("", "<A-h>", "<C-^>", silent_opts) -- prevues buffer
-
--- map('', '<A-b>c', ':BufferLinePickClose<CR>', silent_opts)
--- map('', '<A-b>p', ':BufferLinePick<CR>', silent_opts)
--- map('', '<A-b>r', ':BufferLineCloseRight<CR>', silent_opts)
--- map('', '<A-b>l', ':BufferLineCloseLeft<CR>', silent_opts)
--- map('', '<A-b>o', ':BufferLineCloseRight<CR>:BufferLineCloseLeft<CR>', silent_opts)
 
 map("", "<A-Up>", ":wincmd k<CR>", silent_opts)
 map("", "<A-Down>", ":wincmd j<CR>", silent_opts)

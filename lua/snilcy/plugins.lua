@@ -14,6 +14,9 @@ vim.cmd("packadd packer.nvim")
 local packer = require("packer")
 local util = require("packer.util")
 
+-- Performance
+pcall(require, "impatient")
+
 packer.init({
 	auto_reload_compiled = true,
 	profile = {
@@ -32,11 +35,35 @@ packer.init({
 
 --- startup and add configure plugins
 packer.startup(function(use)
-	-- Load only when require
+	--
+	-- Performance
+	use({ "lewis6991/impatient.nvim" })
 
 	-- All the lua functions I don't want to write twice.
 	use({ "nvim-lua/plenary.nvim", module = "plenary" })
+
+	-- notify error :(
+	use({
+		"rcarriga/nvim-notify",
+		event = "VimEnter",
+		config = function()
+			local notify = require("notify")
+			notify.setup({})
+			-- vim.notify = notify
+		end,
+	})
+
 	use("nvim-lua/popup.nvim")
+
+	-- IndentLine
+	use({
+		"lukas-reineke/indent-blankline.nvim",
+		event = "BufReadPre",
+		config = function()
+			require("snilcy.configs.indentblankline").setup()
+		end,
+	})
+
 	-- use("b0o/schemastore.nvim")
 
 	-- Fast as FUCK nvim completion. SQLite, concurrent scheduler, hundreds of hours of optimization.
@@ -44,11 +71,12 @@ packer.startup(function(use)
 
 	-- A completion plugin for neovim coded in Lua.
 	use({
-		"hrsh7th/nvim-cmp", -- event = "InsertEnter",
+		"hrsh7th/nvim-cmp",
+		-- event = "InsertEnter",
 		-- opt = true,
 		config = function()
 			require("snilcy.configs.cmp").setup()
-		end, -- wants = { "LuaSnip" },
+		end,
 		requires = {
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
@@ -79,11 +107,13 @@ packer.startup(function(use)
 	-- LSP
 	use({
 		"neovim/nvim-lspconfig",
+		event = "BufReadPre",
 		requires = {
 			"folke/lua-dev.nvim",
 			"williamboman/nvim-lsp-installer",
 			"ray-x/lsp_signature.nvim",
 			"RRethy/vim-illuminate", -- automatically highlighting other uses of the word under the cursor
+			"ThePrimeagen/refactoring.nvim",
 			"jose-elias-alvarez/null-ls.nvim",
 			"b0o/schemastore.nvim",
 			{
@@ -102,22 +132,15 @@ packer.startup(function(use)
 			require("snilcy.configs.lsp").setup()
 		end,
 	})
+
 	-- Better syntax highlight for all langs
 	-- An incremental parsing system for programming tools
 	use({
 		"nvim-treesitter/nvim-treesitter",
+		-- event = "BufRead",
 		run = ":TSUpdate",
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = "all",
-				sync_install = false,
-				highlight = {
-					enable = true,
-				},
-				indent = {
-					enable = true,
-				},
-			})
+			require("snilcy.configs.treesitter").setup()
 		end,
 	})
 
@@ -152,6 +175,7 @@ packer.startup(function(use)
 	use({
 		"nvim-lualine/lualine.nvim",
 		event = "VimEnter",
+		after = "nvim-treesitter",
 		config = function()
 			require("snilcy.configs.lualine").setup()
 		end,
@@ -172,29 +196,10 @@ packer.startup(function(use)
 
 	use({
 		"akinsho/bufferline.nvim",
+		event = "BufReadPre",
 		requires = "kyazdani42/nvim-web-devicons",
 		config = function()
-			require("bufferline").setup({
-				options = {
-					themable = true,
-					numbers = "none",
-					diagnostics = "nvim_lsp",
-					separator_style = "slant",
-					show_buffer_close_icons = false,
-					show_close_icon = false,
-					show_buffer_icons = true,
-					show_tab_indicators = true,
-					always_show_bufferline = true,
-					tab_size = 0,
-					offsets = {
-						{
-							filetype = "NvimTree",
-							text = "File Explorer",
-							text_align = "center",
-						},
-					},
-				},
-			})
+			require("snilcy.configs.bufferline").setup()
 		end,
 	})
 
@@ -205,8 +210,16 @@ packer.startup(function(use)
 	-- 	-- config = require("snilcy.configs.nvim-tree"),
 	-- })
 
-	use({ "ms-jpq/chadtree", branch = "chad", run = "python3 -m chadtree deps" })
-	-- use 'majutsushi/tagbar'
+	use({
+		"ms-jpq/chadtree",
+		branch = "chad",
+		run = "python3 -m chadtree deps",
+		config = function()
+			require("snilcy.configs.chadtree").setup()
+		end,
+	})
+
+	-- -- use 'majutsushi/tagbar'
 
 	-- use 'sheerun/vim-polyglot'
 	-- -- these are optional themes but I hear good things about gloombuddy ;)
@@ -223,6 +236,7 @@ packer.startup(function(use)
 	-- WhichKey
 	use({
 		"folke/which-key.nvim",
+		event = "VimEnter",
 		config = function()
 			require("snilcy.configs.whichkey").setup()
 		end,
@@ -307,6 +321,7 @@ packer.startup(function(use)
 	-- Auto pairs
 	use({
 		"windwp/nvim-autopairs",
+		module = { "nvim-autopairs.completion.cmp", "nvim-autopairs" },
 		config = function()
 			require("nvim-autopairs").setup({
 				check_ts = true,
@@ -337,7 +352,17 @@ packer.startup(function(use)
 
 	use({
 		"nvim-telescope/telescope.nvim",
-		-- tag = "0.1.0",
+		opt = true,
+		cmd = { "Telescope" },
+		module = { "telescope", "telescope.builtin" },
+		keys = { "<leader>b", "<leader>p", "<leader>w" },
+		wants = {
+			"telescope-project.nvim",
+			"telescope-file-browser.nvim",
+			"telescope-repo.nvim",
+			"telescope-fzf-native.nvim",
+			"project.nvim",
+		},
 		requires = {
 			"nvim-telescope/telescope-project.nvim",
 			"nvim-telescope/telescope-file-browser.nvim",
@@ -363,10 +388,10 @@ packer.startup(function(use)
 		"folke/trouble.nvim",
 		event = "BufReadPre",
 		wants = "nvim-web-devicons",
-		-- cmd = {
-		-- 	"TroubleToggle",
-		-- 	"Trouble",
-		--  },
+		cmd = {
+			"TroubleToggle",
+			"Trouble",
+		},
 		config = function()
 			require("trouble").setup({
 				padding = false,
@@ -403,36 +428,32 @@ packer.startup(function(use)
 	})
 
 	use({
-		"mfussenegger/nvim-dap",
-		module = { "dap" },
-		requires = {
-			"Pocco81/DAPInstall.nvim",
-			"theHamsta/nvim-dap-virtual-text",
-			"rcarriga/nvim-dap-ui",
-			"nvim-telescope/telescope-dap.nvim",
-			-- "mfussenegger/nvim-dap-python",
-			-- { "leoluz/nvim-dap-go", module = "dap-go" },
-			-- { "jbyuki/one-small-step-for-vimkind", module = "osv" },
-		},
+		"norcalli/nvim-colorizer.lua",
 		config = function()
-			require("snilcy.configs.dap").setup()
+			require("colorizer").setup()
 		end,
 	})
+
 	use({
-		"mxsdev/nvim-dap-vscode-js",
-		requires = {
-			"mfussenegger/nvim-dap",
-			-- {
-			-- 	"microsoft/vscode-js-debug",
-			-- 	opt = true,
-			-- 	run = "npm install --legacy-peer-deps && npm run compile",
-			-- },
-		},
+		"stevearc/dressing.nvim",
+		event = "BufReadPre",
+		config = function()
+			require("dressing").setup({
+				select = {
+					backend = { "telescope", "fzf", "builtin" },
+				},
+			})
+		end,
 	})
 
-	use({ "stevearc/dressing.nvim" })
-	-- 	config = function()
-	-- 		require("snilcy.configs.vimspector").setup()
-	-- 	end,
-	-- })
+	use({ "nathom/filetype.nvim" })
+
+	use({
+		"mhinz/vim-startify",
+		config = function()
+			require("snilcy.configs.startify")
+		end,
+	})
+
+	use({ "Shatur/neovim-session-manager" })
 end)

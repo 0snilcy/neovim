@@ -27,9 +27,14 @@ local with_root_pattern = function(builtin, pattern)
 end
 
 local sources = {
+	-- "go", "javascript", "lua", "python", "typescript"
+	b.code_actions.refactoring,
+
 	-- shell
-	b.formatting.shfmt,
+	-- b.formatting.shfmt,
+	b.formatting.beautysh,
 	with_diagnostics_code(b.diagnostics.shellcheck),
+	with_diagnostics_code(b.diagnostics.zsh),
 
 	-- js
 	with_root_file(b.formatting.prettier, {
