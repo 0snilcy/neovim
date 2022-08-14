@@ -1,4 +1,7 @@
-local M = {}
+local status, lualine = pcall(require, "lualine")
+if not status then
+	return
+end
 
 -- Color table for highlights
 -- local colors = {
@@ -19,6 +22,7 @@ local cp = require("catppuccin.palettes").get_palette()
 
 local function lsp_client(msg)
 	msg = msg or ""
+
 	local buf_clients = vim.lsp.buf_get_clients()
 	if next(buf_clients) == nil then
 		if type(msg) == "boolean" or #msg == 0 then
@@ -78,88 +82,88 @@ end
 --   return table.concat(status, "  ") .. " " .. spinners[frame + 1]
 -- end
 
-function M.setup()
-	local gps = require("nvim-gps")
+local gps = require("nvim-gps")
 
-	require("lualine").setup({
-		options = {
-			icons_enabled = true,
-			theme = "auto",
-			component_separators = {
-				left = "",
-				right = "",
-			},
-			section_separators = {
-				left = "",
-				right = "",
-			},
-			disabled_filetypes = {},
-			always_divide_middle = true,
+lualine.setup({
+	options = {
+		icons_enabled = true,
+		theme = "auto",
+		component_separators = {
+			left = "",
+			right = "",
 		},
-		sections = {
-			lualine_a = {
-				"mode",
-			},
-			lualine_b = {
-				"branch",
-				"diff",
-				{
-					"diagnostics",
-					sources = {
-						"nvim_diagnostic",
-					},
-					symbols = {
-						error = " ",
-						warn = " ",
-						info = " ",
-						hint = " ",
-					},
-					colored = true,
+		section_separators = {
+			left = "",
+			right = "",
+		},
+		disabled_filetypes = {},
+		always_divide_middle = true,
+	},
+	sections = {
+		lualine_a = {
+			"mode",
+		},
+		lualine_b = {
+			"branch",
+			"diff",
+			{
+				"diagnostics",
+				sources = {
+					"nvim_diagnostic",
 				},
-			},
-			lualine_c = {
-				-- {
-				-- 	separator,
-				--  },
-				{
-					lsp_client,
-					icon = " ",
-					color = {
-						fg = cp.muave,
-						gui = "bold",
-					},
+				symbols = {
+					error = " ",
+					warn = " ",
+					info = " ",
+					hint = " ",
 				},
-				-- { lsp_progress },
-				{
-					gps.get_location,
-					cond = gps.is_available,
-					color = {
-						fg = cp.green,
-					},
-				},
-			},
-			lualine_x = {
-				-- "filename",
-				-- "encoding",
-				{
-					"filetype",
-					icon_only = true,
-				},
-				"fileformat",
-			},
-			lualine_y = {
-				"progress",
-			},
-			lualine_z = {
-				"location",
+				colored = true,
 			},
 		},
-		-- tabline = { },
-		extensions = {
-			"nvim-tree",
-			"fzf",
+		lualine_c = {
+			-- {
+			-- 	separator,
+			--  },
+			{
+				lsp_client,
+				icon = " ",
+				color = {
+					fg = cp.muave,
+					gui = "bold",
+				},
+			},
+			-- { lsp_progress },
+			{
+				gps.get_location,
+				cond = gps.is_available,
+				color = {
+					fg = cp.green,
+				},
+			},
 		},
-	})
-end
-
-return M
+		lualine_x = {
+			-- "filename",
+			-- "encoding",
+			{
+				"filetype",
+				icon_only = true,
+			},
+			"fileformat",
+		},
+		lualine_y = {
+			"progress",
+		},
+		lualine_z = {
+			"location",
+		},
+	},
+	tabline = {
+		lualine_a = {
+			"buffers",
+		},
+	},
+	extensions = {
+		"fzf",
+		"chadtree",
+	},
+})

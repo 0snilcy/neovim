@@ -22,7 +22,7 @@ vim.g.clipboard = {
 		["+"] = "win32yank.exe -o --crlf",
 		["*"] = "win32yank.exe -o --crlf",
 	},
-	cache_enable = 0,
+	-- cache_enable = 0,
 }
 
 opt.spelllang = {
@@ -137,30 +137,6 @@ cmd([[
 -- -- Установки для плагинов
 -- -----------------------------------------------------------
 o.completeopt = "noinsert,menuone,noselect"
--- set nocompatible            " disable compatibility to old-time vi
--- set showmatch               " show matching
--- set ignorecase              " case insensitive
--- set mouse=v                 " middle-click paste with
--- set hlsearch                " highlight search
--- set incsearch               " incremental search
--- set tabstop=4               " number of columns occupied by a tab
--- set softtabstop=4           " see multiple spaces as tabstops so <BS> does the right thing
--- set expandtab               " converts tabs to white space
--- set shiftwidth=4            " width for autoindents
--- set autoindent              " indent a new line the same amount as the line just typed
--- set number                  " add line numbers
--- set wildmode=longest,list   " get bash-like tab completions
--- set cc=80                  " set an 80 column border for good coding style
--- filetype plugin indent on   "allow auto-indenting depending on file type
--- syntax on                   " syntax highlighting
--- set mouse=a                 " enable mouse click
--- set clipboard=unnamedplus   " using system clipboard
--- filetype plugin on
--- set cursorline              " highlight current cursorline
--- set ttyfast                 " Speed up scrolling in Vim
--- " set spell                 " enable spell check (may need to download language package)
--- " set noswapfile            " disable creating swap file
--- " set backupdir=~/.cache/vim " Directory to store backup files.
 
 api.nvim_set_keymap("", "<Space>", "<Nop>", {
 	noremap = true,
@@ -185,24 +161,38 @@ g.netrw_altv = 1 -- Open with right splitting
 g.netrw_liststyle = 3 -- Tree-style view
 g.netrw_list_hide = (fn["netrw_gitignore#Hide"]()) .. [[,\(^\|\s\s\)\zs\.\S\+]] -- use .gitignore
 
-opt.history = 50
+opt.history = 100
 
 opt.backup = false
 opt.backupext = ".bak"
 
-api.nvim_create_autocmd({ "WinEnter" }, {
-	callback = function()
-		local wins = api.nvim_list_wins()
-		for _, win_id in ipairs(wins) do
-			local config = api.nvim_win_get_config(win_id)
-			-- print(data.event)
-			-- local is_float_window = not (config.zindex == nil)
-			local is_float_window = not (config.zindex == nil) and config.focusable
-			if is_float_window then
-				api.nvim_win_set_config(win_id, {
-					border = "rounded",
-				})
-			end
-		end
-	end,
-})
+-- cmd('set shada=!,'100,"300,<0,s10')
+cmd("set shada=" .. table.concat({
+	-- Save and restore global variables that start
+	-- with an uppercase letter, and don't contain a lowercase
+	-- letter.
+	"!",
+
+	-- Maximum number of previously edited files for which the marks
+	-- are remembered.
+	"'100",
+
+	-- Maximum number of lines saved for each register.
+	"\"300",
+
+	-- Maximum number of lines saved for each register.  If zero then
+	--	registers are not saved.
+	"<0",
+
+	-- Maximum size of an item contents in KiB.  If zero then nothing
+	-- is saved.
+	"s10",
+}, ","))
+
+vim.opt.cursorline = true
+vim.opt.termguicolors = true
+vim.opt.winblend = 0
+vim.opt.wildoptions = "pum"
+vim.opt.pumblend = 5
+vim.opt.background = "dark"
+vim.opt.showcmd = true

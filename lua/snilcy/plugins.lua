@@ -35,25 +35,21 @@ packer.init({
 
 --- startup and add configure plugins
 packer.startup(function(use)
-	--
 	-- Performance
 	use({ "lewis6991/impatient.nvim" })
 
-	-- All the lua functions I don't want to write twice.
+	use({ "kyazdani42/nvim-web-devicons" })
 	use({ "nvim-lua/plenary.nvim", module = "plenary" })
 
-	-- notify error :(
-	use({
-		"rcarriga/nvim-notify",
-		event = "VimEnter",
-		config = function()
-			local notify = require("notify")
-			notify.setup({})
-			-- vim.notify = notify
-		end,
-	})
+	use({ "rcarriga/nvim-notify" })
+	use({ "nvim-lua/popup.nvim" })
 
-	use("nvim-lua/popup.nvim")
+	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+
+	use({ "petertriho/nvim-scrollbar", module = "scrollbar" })
+	use({ "nvim-lualine/lualine.nvim" })
+
+	use({ "catppuccin/nvim", run = ":CatppuccinCompile" })
 
 	-- IndentLine
 	use({
@@ -133,17 +129,6 @@ packer.startup(function(use)
 		end,
 	})
 
-	-- Better syntax highlight for all langs
-	-- An incremental parsing system for programming tools
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		-- event = "BufRead",
-		run = ":TSUpdate",
-		config = function()
-			require("snilcy.configs.treesitter").setup()
-		end,
-	})
-
 	-- use 'joshdick/onedark.vim'
 	-- use "ellisonleao/gruvbox.nvim"
 	-- use "sainnhe/everforest"
@@ -161,29 +146,6 @@ packer.startup(function(use)
 	-- 	end,
 	-- }
 
-	-- Better icons
-	use({
-		"kyazdani42/nvim-web-devicons",
-		module = "nvim-web-devicons",
-		config = function()
-			require("nvim-web-devicons").setup({
-				default = true,
-			})
-		end,
-	})
-
-	use({
-		"nvim-lualine/lualine.nvim",
-		event = "VimEnter",
-		after = "nvim-treesitter",
-		config = function()
-			require("snilcy.configs.lualine").setup()
-		end,
-		requires = {
-			"nvim-web-devicons",
-		},
-	})
-
 	-- Simple statusline component that shows what scope you are working inside
 	use({
 		"SmiteshP/nvim-gps",
@@ -191,15 +153,6 @@ packer.startup(function(use)
 		module = "nvim-gps",
 		config = function()
 			require("nvim-gps").setup()
-		end,
-	})
-
-	use({
-		"akinsho/bufferline.nvim",
-		event = "BufReadPre",
-		requires = "kyazdani42/nvim-web-devicons",
-		config = function()
-			require("snilcy.configs.bufferline").setup()
 		end,
 	})
 
@@ -419,15 +372,6 @@ packer.startup(function(use)
 	-- }
 
 	use({
-		"catppuccin/nvim",
-		as = "catppuccin",
-		run = ":CatppuccinCompile",
-		config = function()
-			require("snilcy.configs.catppuccin").setup()
-		end,
-	})
-
-	use({
 		"norcalli/nvim-colorizer.lua",
 		config = function()
 			require("colorizer").setup()
@@ -436,7 +380,6 @@ packer.startup(function(use)
 
 	use({
 		"stevearc/dressing.nvim",
-		event = "BufReadPre",
 		config = function()
 			require("dressing").setup({
 				select = {
@@ -448,12 +391,30 @@ packer.startup(function(use)
 
 	use({ "nathom/filetype.nvim" })
 
+	-- use({
+	-- 	"mhinz/vim-startify",
+	-- 	config = function()
+	-- 		require("snilcy.configs.startify")
+	-- 	end,
+	-- })
+
 	use({
-		"mhinz/vim-startify",
+		"goolord/alpha-nvim",
+		requires = { "kyazdani42/nvim-web-devicons" },
 		config = function()
-			require("snilcy.configs.startify")
+			require("snilcy.configs.alpha").setup()
 		end,
 	})
 
-	use({ "Shatur/neovim-session-manager" })
+	use({
+		"Shatur/neovim-session-manager",
+		wants = {
+			"stevearc/dressing.nvim",
+		},
+		config = function()
+			require("session_manager").setup({
+				autoload_mode = require("session_manager.config").AutoloadMode.Disabled,
+			})
+		end,
+	})
 end)

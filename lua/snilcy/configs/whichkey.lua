@@ -51,13 +51,19 @@ function M.setup()
 			s = { ":Telescope lsp_document_symbols<CR>", "Symbols" },
 			g = { ":Telescope current_buffer_fuzzy_find<CR>", "Grep" },
 			a = { ":'<,'>lua vim.lsp.buf.range_code_action()<CR>", "Range code actions" },
-			-- r = { ":BufferLineCloseRight<CR>", "CloseRight" },
-			-- l = { ":BufferLineCloseLeft<CR>", "CloseLeft" },
+		},
+
+		g = {
+			name = "Global",
+			p = { ":Telescope projects<CR>", "Projects" },
+			r = { ":Telescope oldfiles initial_mode=normal<CR>", "Resent files" },
+			l = { ":SessionManager load_session<CR>", "Load Session" },
+			L = { ":SessionManager load_last_session<CR>", "Last Sessions" },
+			s = { ":SessionManager save_current_session<CR>", "Save Sessions" },
 		},
 
 		p = {
 			name = "Project",
-			l = { ":Telescope projects<CR>", "List" },
 			b = { ":lua require('utils.finder').find_buffers()<CR>", "Buffers grep" },
 			f = { ":lua require('utils.finder').find_files()<CR>", "File search" },
 			F = { ":Telescope file_browser<CR>", "File browser" },
@@ -66,7 +72,6 @@ function M.setup()
 			g = { ":Telescope live_grep<CR>", "Grep" },
 			s = { ":Telescope lsp_dynamic_workspace_symbols<CR>", "Symbols" },
 			d = { ":Trouble workspace_diagnostics<CR>", "Diagnostics" },
-			r = { ":Telescope oldfiles initial_mode=normal<CR>", "Resent files" },
 			-- s = { ":Telescope repo list<CR>", "Search" },
 		},
 

@@ -3,11 +3,10 @@ local M = {}
 function M.setup()
 	local comment = require("Comment")
 
-	vim.keymap.set("x", "<A-/>", "<esc><cmd>lua require(\"Comment.api\").toggle_linewise_op(vim.fn.visualmode())<cr>")
-	vim.keymap.set("n", "<A-/>", "<cmd>lua require(\"Comment.api\").toggle_linewise_op()<cr>")
+	vim.keymap.set("x", "<A-/>", ":lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>")
+	vim.keymap.set("n", "<A-/>", ":lua require('Comment.api').toggle.linewise()<CR>")
 
 	comment.setup({
-		-- mappings = false
 		ignore = "^$",
 	})
 end

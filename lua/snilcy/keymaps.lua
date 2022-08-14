@@ -17,6 +17,8 @@ local noisy_opts = {
 -- 	silent = true,
 --  } -- expression
 
+map("", "<Space>", "<Nop>", silent_opts)
+
 map("i", "<A-j>", "<Esc>", silent_opts)
 map("i", "<C-j>", "<Esc>", silent_opts)
 map("t", "<C-j>", "<C-\\><C-n>", silent_opts)
@@ -27,7 +29,7 @@ map("", "<left>", ":echoe \"Use h\"<CR>", noisy_opts)
 map("", "<right>", ":echoe \"Use l\"<CR>", noisy_opts)
 
 -- Paste over currently selected text without yanking it
--- map("v", "p", "\"_dP", silent_opts)
+map("v", "p", "\"_dP", silent_opts)
 
 -- Cancel search highlighting with ESC
 map("n", "<ESC>", ":nohlsearch<Bar>:echo<CR>", silent_opts)
@@ -36,8 +38,8 @@ map("n", "<ESC>", ":nohlsearch<Bar>:echo<CR>", silent_opts)
 -- map("x", "K", ":move '<-2<CR>gv-gv", silent_opts)
 -- map("x", "J", ":move '>+1<CR>gv-gv", silent_opts)
 
-map("n", "<C-k>", "<C-e>", silent_opts)
-map("n", "<C-j>", "<C-y>", silent_opts)
+map("n", "<C-j>", "<C-e>", silent_opts)
+map("n", "<C-k>", "<C-y>", silent_opts)
 
 map("", "<C-q>", "<Esc>:wqall!<CR>", silent_opts)
 map({ "n", "i" }, "<C-s>", "<Esc>:w!<CR>", silent_opts)
