@@ -1,17 +1,35 @@
 local M = {}
 
 local MAX_ITEMS_PER_GROUP = 5
-local sc_n = 0
+
+local nvim_web_devicons = {
+	enabled = true,
+	highlight = true,
+}
+
+local function get_extension(fn)
+	local match = fn:match("^.+(%..+)$")
+	local ext = ""
+	if match ~= nil then
+		ext = match:sub(2)
+	end
+	return ext
+end
+
+local function icon(fn)
+	local nwd = require("nvim-web-devicons")
+	local ext = get_extension(fn)
+	return nwd.get_icon(fn, ext, { default = true })
+end
 
 function M.setup()
 	local alpha = require("alpha")
 	local startify = require("alpha.themes.startify")
 	local session_utils = require("session_manager.utils")
 
-	require("utils").log("SETUP", "WHO")
-
 	local section = startify.section
 	local button = startify.button
+
 	local mru = function(start, cwd)
 		return startify.mru(start, cwd, MAX_ITEMS_PER_GROUP)
 	end
@@ -26,8 +44,7 @@ function M.setup()
 				{
 					type = "group",
 					val = function()
-						require("utils").log("MRU", "WHO")
-						return { mru(sc_n) }
+						return { mru(MAX_ITEMS_PER_GROUP) }
 					end,
 				},
 			},
@@ -43,27 +60,46 @@ function M.setup()
 					val = function()
 						local res = {}
 						local sessions = session_utils.get_sessions()
+						local sc_n = 0
 						--
-						require("utils").log("SESSION", "WHO")
+						-- require("utils").log("SESSION", "WHO")
 
-						for id, session in ipairs(sessions) do
+						for _, session in ipairs(sessions) do
 							local filename = vim.fn.fnamemodify(session.dir.filename, ":~")
-							local session_button = startify.button(
+							local ico_txt
+							local fb_hl = {}
+
+							if nvim_web_devicons.enabled then
+								local ico, hl = icon(filename)
+								local hl_option_type = type(nvim_web_devicons.highlight)
+								if hl_option_type == "boolean" then
+									if hl and nvim_web_devicons.highlight then
+										table.insert(fb_hl, { hl, 0, 1 })
+									end
+								end
+								if hl_option_type == "string" then
+									table.insert(fb_hl, { nvim_web_devicons.highlight, 0, 1 })
+								end
+								ico_txt = ico .. "  "
+							else
+								ico_txt = ""
+							end
+
+							-- local file_button_el = button(sc, ico_txt .. short_fn, "<cmd>e " .. fn .. " <CR>")
+
+							local session_button = button(
 								tostring(sc_n),
-								filename,
-								-- "<CMD>lua require('session_manager.utils').load_session('" .. session.filename .. "')<CR>"
-								-- ":lua " .. session.filename .. ")<CR>"
-								"<CMD>echo 137"
+								ico_txt .. filename,
+								"<CMD>lua require('session_manager.utils').load_session('" .. session.filename .. "')<CR>"
 							)
 
-							require("utils").log(filename, "WHO")
-							-- require("utils").dump({
-							-- 	-- sc = sc_n,
-							-- 	filename = filename,
-							-- 	-- id = id,
-							-- })
-
 							sc_n = sc_n + 1
+
+							local fn_start = filename:match(".*[/\\]")
+							if fn_start ~= nil then
+								table.insert(fb_hl, { "Comment", #ico_txt - 2, #fn_start + #ico_txt - 2 })
+							end
+							session_button.opts.hl = fb_hl
 							table.insert(res, session_button)
 						end
 
@@ -75,17 +111,17 @@ function M.setup()
 	}
 
 	startify.config.layout = {
-		-- { type = "padding", val = 1 },
-		-- section.header,
-		-- { type = "padding", val = 1 },
-		-- section.top_buttons,
+		{ type = "padding", val = 1 },
+		section.header,
+		{ type = "padding", val = 1 },
+		section.top_buttons,
 		my_section.session,
-		-- my_section.mru,
+		my_section.mru,
 		-- section.mru,
 		-- section.mru_cwd,
-		-- { type = "padding", val = 1 },
-		-- section.bottom_buttons,
-		-- section.footer,
+		{ type = "padding", val = 1 },
+		section.bottom_buttons,
+		section.footer,
 	}
 
 	startify.config.opts.setup = nil

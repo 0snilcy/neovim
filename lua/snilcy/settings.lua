@@ -62,8 +62,8 @@ g.wildmenu = true
 -- o.background = "dark" -- or "light" for light mode
 -- cmd 'colorscheme gruvbox'
 -- cmd "colorscheme everforest"
-g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
-cmd([[colorscheme catppuccin]])
+-- g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
+-- cmd([[colorscheme catppuccin]])
 -- cmd [[highlight link LspSagaFinderSelection Search]]
 
 -- -----------------------------------------------------------

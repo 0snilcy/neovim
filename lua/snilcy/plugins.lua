@@ -33,10 +33,8 @@ packer.init({
 	},
 })
 
---- startup and add configure plugins
 packer.startup(function(use)
-	-- Performance
-	use({ "lewis6991/impatient.nvim" })
+	use({ "lewis6991/impatient.nvim" }) -- Performance
 
 	use({ "kyazdani42/nvim-web-devicons" })
 	use({ "nvim-lua/plenary.nvim", module = "plenary" })
@@ -49,7 +47,23 @@ packer.startup(function(use)
 	use({ "petertriho/nvim-scrollbar", module = "scrollbar" })
 	use({ "nvim-lualine/lualine.nvim" })
 
-	use({ "catppuccin/nvim", run = ":CatppuccinCompile" })
+	-- use({ "catppuccin/nvim", run = ":CatppuccinCompile" })
+	use({ "rebelot/kanagawa.nvim" })
+	-- use({
+	-- 	"rose-pine/neovim",
+	-- 	as = "rose-pine",
+	-- 	tag = "v1.*",
+	-- })
+	--
+	-- use({
+	-- 	"olimorris/onedarkpro.nvim",
+	-- 	config = function()
+	-- 		require("onedarkpro").setup({
+	-- 			dark_theme = "onedark", -- The default dark theme
+	-- 			light_theme = "onelight", -- The default light theme
+	-- 		})
+	-- 	end,
+	-- })
 
 	-- IndentLine
 	use({

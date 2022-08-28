@@ -18,7 +18,12 @@ end
 -- 	red = "#ec5f67",
 -- }
 
-local cp = require("catppuccin.palettes").get_palette()
+local status, lualine = pcall(require, "lualine")
+if not status then
+	return
+end
+
+-- local cp = require("catppuccin.palettes").get_palette()
 
 local function lsp_client(msg)
 	msg = msg or ""
@@ -128,7 +133,7 @@ lualine.setup({
 				lsp_client,
 				icon = " ",
 				color = {
-					fg = cp.muave,
+					-- fg = cp.muave,
 					gui = "bold",
 				},
 			},
@@ -137,7 +142,7 @@ lualine.setup({
 				gps.get_location,
 				cond = gps.is_available,
 				color = {
-					fg = cp.green,
+					-- fg = cp.green,
 				},
 			},
 		},

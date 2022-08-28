@@ -2,8 +2,9 @@ local status, catppuccin = pcall(require, "catppuccin")
 if not status then
 	return
 end
+require("utils").log("catppuccincatppuccincatppuccin", "WHO")
 
-local lspsage_palette = require("after.plugin.catppuccin.colors.lspsaga")
+local lspsage_palette = require("snilcy.configs.catppuccin.colors.lspsaga")
 local cp = require("catppuccin.palettes").get_palette() -- fetch colors from palette
 cp.none = "NONE"
 
@@ -20,7 +21,7 @@ catppuccin.setup({
 		shade = "dark",
 		percentage = 0.15,
 	},
-	transparent_background = true,
+	transparent_background = false,
 	term_colors = false,
 	-- compile = {
 	-- 	enabled = false,
