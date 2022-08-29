@@ -45,6 +45,8 @@ local servers = {
 	},
 	tsserver = {},
 	vimls = {},
+	bashls = {},
+	emmet_ls = {},
 }
 
 local M = {}
@@ -63,6 +65,8 @@ function M.setup(options)
 
 				if server.name == "tsserver" then
 					require("typescript").setup({
+						disable_commands = false,
+						debug = false,
 						server = opts,
 					})
 				else

@@ -18,11 +18,6 @@ end
 -- 	red = "#ec5f67",
 -- }
 
-local status, lualine = pcall(require, "lualine")
-if not status then
-	return
-end
-
 -- local cp = require("catppuccin.palettes").get_palette()
 
 local function lsp_client(msg)
@@ -64,6 +59,14 @@ local function lsp_client(msg)
 	return "[" .. table.concat(buf_client_names, ", ") .. "]"
 end
 
+local filetype_names = {
+	TelescopePrompt = "Telescope",
+	dashboard = "Dashboard",
+	packer = "Packer",
+	fzf = "FZF",
+	alpha = "Alpha",
+}
+
 -------- use fidget.nvim ------
 -- local function lsp_progress(_, is_active)
 --   if not is_active then
@@ -92,7 +95,7 @@ local gps = require("nvim-gps")
 lualine.setup({
 	options = {
 		icons_enabled = true,
-		theme = "auto",
+		theme = "catppuccin",
 		component_separators = {
 			left = "",
 			right = "",
@@ -164,7 +167,11 @@ lualine.setup({
 	},
 	tabline = {
 		lualine_a = {
-			"buffers",
+			{
+				"buffers",
+				mode = 0,
+				filetype_names = filetype_names,
+			},
 		},
 	},
 	extensions = {

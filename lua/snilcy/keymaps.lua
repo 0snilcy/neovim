@@ -46,8 +46,8 @@ map({ "n", "i" }, "<C-s>", "<Esc>:w!<CR>", silent_opts)
 map("i", "<C-z>", "u", silent_opts)
 map("", "<C-w>", "<Esc>:bdelete!<CR>", silent_opts)
 
-map("", "<A-j>", ":BufferLineCyclePrev<CR>", silent_opts)
-map("", "<A-k>", ":BufferLineCycleNext<CR>", silent_opts)
+map("", "<A-j>", ":bprev<CR>", silent_opts)
+map("", "<A-k>", ":bnext<CR>", silent_opts)
 map("", "<A-h>", "<C-^>", silent_opts) -- prevues buffer
 
 map("", "<A-Up>", ":wincmd k<CR>", silent_opts)
