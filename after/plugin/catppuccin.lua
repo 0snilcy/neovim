@@ -56,17 +56,19 @@ local plugin_colors = {
 
 	LspInlayHint = { fg = cp.surface2, bg = cp.none },
 	Folded = { fg = cp.blue, bg = ucolors.darken(cp.surface0, 0.3, cp.base) },
+	FidgetTitle = { fg = cp.surface2 },
+	FidgetTask = { fg = cp.surface2 },
 }
 
 catppuccin.setup({
 	custom_highlights = vim.tbl_deep_extend("force", {}, lspsage_palette, plugin_colors),
 	dim_inactive = {
-		enabled = true,
+		enabled = false,
 		shade = "dark",
 		percentage = 0.15,
 	},
-	transparent_background = false,
-	term_colors = false,
+	transparent_background = true,
+	term_colors = true,
 	-- compile = {
 	-- 	enabled = false,
 	-- 	-- path = vim.fn.stdpath "cache" .. "/catppuccin",
@@ -166,6 +168,7 @@ catppuccin.setup({
 		-- aerial = false,
 		-- vimwiki = false,
 		-- beacon = false,
+		fidget = true,
 	},
 })
 

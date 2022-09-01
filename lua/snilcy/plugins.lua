@@ -65,6 +65,7 @@ packer.startup(function(use)
 	use({ "norcalli/nvim-colorizer.lua" })
 	use({ "folke/lsp-colors.nvim" })
 	use({ "ggandor/lightspeed.nvim" })
+	use({ "lvimuser/lsp-inlayhints.nvim" })
 
 	use({ "goolord/alpha-nvim" })
 	use({ "Shatur/neovim-session-manager" })
@@ -79,13 +80,6 @@ packer.startup(function(use)
 	use({ "idanarye/vim-merginal" })
 	use({ "rbong/vim-flog" })
 	use({ "TimUntersberger/neogit" })
-
-	use({
-		"lvimuser/lsp-inlayhints.nvim",
-		config = function()
-			require("lsp-inlayhints").setup({})
-		end,
-	})
 
 	use({
 		"nvim-telescope/telescope.nvim",
