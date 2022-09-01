@@ -10,17 +10,19 @@ g.loaded_ruby_provider = 0
 g.ignorecase = true
 g.smartcase = true
 
+cmd([[set splitright]])
+
 -- opt.clipboard = "unnamedplus"
 
-vim.g.clipboard = {
+g.clipboard = {
 	name = "win32yank-wsl",
 	copy = {
 		["+"] = "win32yank.exe -i --crlf",
 		["*"] = "win32yank.exe -i --crlf",
 	},
 	paste = {
-		["+"] = "win32yank.exe -o --crlf",
-		["*"] = "win32yank.exe -o --crlf",
+		["+"] = "win32yank.exe -o --lf",
+		["*"] = "win32yank.exe -o --lf",
 	},
 	-- cache_enable = 0,
 }
@@ -48,7 +50,14 @@ opt.cmdheight = 1
 
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
-opt.foldenable = false
+-- opt.foldenable = false
+
+o.foldcolumn = "1"
+o.foldlevel = 3 -- Using ufo provider need a large value, feel free to decrease the value
+-- o.foldlevelstart = 9999
+-- o.foldenable = true
+
+-- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
 
 opt.cursorline = true -- Подсветка строки с курсором
 opt.signcolumn = "yes"

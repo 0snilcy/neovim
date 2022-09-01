@@ -40,4 +40,11 @@ function M.diagnostics()
 	})
 end
 
+function M.replace_buffer_word()
+	require("spectre").open({
+		search_text = vim.fn.expand("<cword>"),
+		path = vim.fn.fnameescape(vim.fn.expand("%:p:.")),
+	})
+end
+
 return M

@@ -4,7 +4,11 @@ if not status then
 end
 
 dressing.setup({
+	input = {
+		enabled = true,
+	},
 	select = {
+		enabled = true,
 		backend = { "telescope", "fzf", "builtin" },
 	},
 })

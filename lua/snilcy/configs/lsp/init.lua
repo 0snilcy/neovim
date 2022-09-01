@@ -21,13 +21,24 @@ local function on_attach(client, bufnr)
 
 	require("snilcy.configs.lsp.highlighting").setup(client)
 	require("snilcy.configs.lsp.null-ls.formatters").setup(client, bufnr)
+
+	-- require("inlay-hints").on_attach(client, bufnr)
+	require("lsp-inlayhints").on_attach(client, bufnr)
+	-- require("aerial").on_attach(client, bufnr)
 end
 
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
+
+local cmp_capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 local opts = {
 	on_attach = on_attach,
-	capabilities = capabilities,
+	capabilities = cmp_capabilities,
 	flags = {
 		debounce_text_changes = 150,
 	},

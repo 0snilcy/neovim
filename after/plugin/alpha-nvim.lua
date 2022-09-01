@@ -62,7 +62,6 @@ local my_section = {
 					local res = {}
 					local sessions = session_utils.get_sessions()
 					local sc_n = 0
-					--
 					-- require("utils").log("SESSION", "WHO")
 
 					for _, session in ipairs(sessions) do

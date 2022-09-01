@@ -65,6 +65,8 @@ local filetype_names = {
 	packer = "Packer",
 	fzf = "FZF",
 	alpha = "Alpha",
+	CHADTree = "CHADTree",
+	Outline = "Outline",
 }
 
 -------- use fidget.nvim ------
@@ -177,5 +179,6 @@ lualine.setup({
 	extensions = {
 		"fzf",
 		"chadtree",
+		"symbols-outline",
 	},
 })

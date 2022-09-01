@@ -34,6 +34,7 @@ end
 -- 	crust = "#11111B",
 -- }
 
+local ucolors = require("catppuccin.utils.colors")
 local lspsage_palette = require("snilcy.configs.catppuccin.colors.lspsaga")
 local cp = require("catppuccin.palettes").get_palette()
 cp.none = "NONE"
@@ -44,6 +45,17 @@ local plugin_colors = {
 	-- String = { bg = cp.red, fg = cp.red },
 	Visual = { bg = cp.surface2, style = { "bold" } }, -- Visual mode selection
 	VisualNOS = { bg = cp.surface2, style = { "bold" } }, -- Visual mode selection when vim is "Not Owning the Selection".
+
+	rainbowcol1 = { fg = cp.red },
+	rainbowcol2 = { fg = cp.teal },
+	rainbowcol3 = { fg = cp.yellow },
+	rainbowcol4 = { fg = cp.blue },
+	rainbowcol5 = { fg = cp.pink },
+	rainbowcol6 = { fg = cp.flamingo },
+	rainbowcol7 = { fg = cp.green },
+
+	LspInlayHint = { fg = cp.surface2, bg = cp.none },
+	Folded = { fg = cp.blue, bg = ucolors.darken(cp.surface0, 0.3, cp.base) },
 }
 
 catppuccin.setup({
@@ -145,7 +157,7 @@ catppuccin.setup({
 		bufferline = true,
 		-- markdown = true,
 		lightspeed = true,
-		-- ts_rainbow = false,
+		-- ts_rainbow = true,
 		hop = true,
 		-- notify = true,
 		-- telekasten = true,

@@ -1,7 +1,6 @@
 local vim = vim
 local execute = vim.api.nvim_command
 local fn = vim.fn
--- ensure that packer is installed
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -47,6 +46,7 @@ packer.startup(function(use)
 	use({ "junegunn/fzf", run = "./install --all" })
 	use({ "ibhagwan/fzf-lua" })
 
+	use({ "p00f/nvim-ts-rainbow" })
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 	use({ "SmiteshP/nvim-gps" })
 	use({ "folke/trouble.nvim" })
@@ -63,14 +63,34 @@ packer.startup(function(use)
 	use({ "numToStr/Comment.nvim" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
 	use({ "norcalli/nvim-colorizer.lua" })
+	use({ "folke/lsp-colors.nvim" })
+	use({ "ggandor/lightspeed.nvim" })
 
 	use({ "goolord/alpha-nvim" })
 	use({ "Shatur/neovim-session-manager" })
 
+	-- use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
+	use({ "anuvyklack/pretty-fold.nvim" })
+	use({ "anuvyklack/fold-preview.nvim", requires = "anuvyklack/keymap-amend.nvim" })
+	use({ "windwp/nvim-spectre" })
+	use({ "simrat39/symbols-outline.nvim" })
+
+	use({ "tpope/vim-fugitive" })
+	use({ "idanarye/vim-merginal" })
+	use({ "rbong/vim-flog" })
+	use({ "TimUntersberger/neogit" })
+
+	use({
+		"lvimuser/lsp-inlayhints.nvim",
+		config = function()
+			require("lsp-inlayhints").setup({})
+		end,
+	})
+
 	use({
 		"nvim-telescope/telescope.nvim",
-		module = { "telescope", "telescope.builtin" },
-		keys = { "<leader>b", "<leader>p", "<leader>w" },
+		-- module = { "telescope", "telescope.builtin" },
+		-- keys = { "<leader>b", "<leader>p", "<leader>w" },
 		wants = {
 			"telescope-file-browser.nvim",
 			"telescope-fzf-native.nvim",
@@ -78,6 +98,7 @@ packer.startup(function(use)
 		requires = {
 			"nvim-telescope/telescope-file-browser.nvim",
 			{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+			-- "nvim-telescope/telescope-media-files.nvim",
 		},
 	})
 
@@ -98,7 +119,6 @@ packer.startup(function(use)
 
 	use({
 		"neovim/nvim-lspconfig",
-		event = "BufReadPre",
 		requires = {
 			"folke/lua-dev.nvim",
 			"williamboman/nvim-lsp-installer",
@@ -115,17 +135,6 @@ packer.startup(function(use)
 		end,
 	})
 
-	-- -- use 'majutsushi/tagbar'
-
-	-- use {
-	--   'mrjones2014/legendary.nvim',
-	--   keys = { [[<C-p>]] },
-	--   config = function()
-	--     require("snilcy.configs.legendary").setup()
-	--   end,
-	--   requires = { "stevearc/dressing.nvim" },
-	-- }
-
 	-- Easy hopping
 	-- use({
 	-- 	"phaazon/hop.nvim", -- cmd = { "HopWord", "HopChar1" },
@@ -134,21 +143,7 @@ packer.startup(function(use)
 	-- 	end,
 	-- })
 
-	-- Easy motion
-	-- use({
-	-- 	"ggandor/lightspeed.nvim",
-	-- 	keys = {
-	-- 		"s",
-	-- 		"S",
-	-- 		"f",
-	-- 		"F",
-	-- 		"t",
-	-- 		"T",
-	-- 	},
-	-- 	config = function()
-	-- 		require("lightspeed").setup({})
-	-- 	end,
-	-- })
+	-- use({ "mg979/vim-visual-multi" })
 
 	-- use 'wellle/targets.vim'
 
