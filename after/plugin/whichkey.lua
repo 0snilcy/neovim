@@ -3,7 +3,19 @@ if not status then
 	return
 end
 
+local packer_reload = function()
+	local cwd = vim.fn.getcwd()
+	local plugins_path = cwd .. "/lua/snilcy/plugins.lua"
+
+	local output = vim.api.nvim_cmd({
+		"source",
+		plugins_path,
+	}, true)
+	require("packer").compile(output)
+end
+
 local conf = {
+	-- hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ ", "^I" }, -- hide mapping boilerplate
 	window = {
 		-- border = "single", -- none, single, double, shadow
 		-- position = "bottom", -- bottom, top
@@ -19,6 +31,7 @@ local conf = {
 			g = true, -- bindings for prefixed with g
 		},
 	},
+	key_labels = {},
 }
 
 local opts = {
@@ -53,6 +66,7 @@ local mappings = {
 		g = { ":Telescope current_buffer_fuzzy_find<CR>", "Grep" },
 		a = { ":'<,'>lua vim.lsp.buf.range_code_action()<CR>", "Range code actions" },
 		r = { ":lua require('spectre').open_file_search()<CR>", "Replace" },
+		e = { ":source!<CR>", "Execute" },
 	},
 
 	g = {
@@ -63,6 +77,8 @@ local mappings = {
 		l = { ":SessionManager load_session<CR>", "Load Session" },
 		L = { ":SessionManager load_last_session<CR>", "Last Sessions" },
 		s = { ":SessionManager save_current_session<CR>", "Save Sessions" },
+		t = { ":terminal<CR>", "Terminal" },
+		c = { packer_reload, "PackerReload" },
 	},
 
 	p = {
@@ -76,13 +92,13 @@ local mappings = {
 		s = { ":Telescope lsp_dynamic_workspace_symbols<CR>", "Symbols" },
 		d = { ":Trouble workspace_diagnostics<CR>", "Diagnostics" },
 		r = { ":lua require('spectre').open()<CR>", "Replace" },
-		-- s = { ":Telescope repo list<CR>", "Search" },
+		t = { ":TodoTrouble<CR>", "TODO" },
 	},
 
 	h = {
 		name = "Hop",
 		c = { ":HopChar1", "Char" },
-		-- w = { ":HopWor", "Char" },
+		w = { ":HopWor", "War" },
 	},
 
 	w = {
@@ -102,5 +118,22 @@ local mappings = {
 	},
 }
 
+local opts_v = {
+	mode = "x",
+	prefix = "<leader>",
+	buffer = nil,
+	silent = false,
+	noremap = true,
+	nowait = false,
+}
+
+local mappings_v = {
+	e = {
+		":'<,'>source!<CR>",
+		"Execute",
+	},
+}
+
 whichkey.setup(conf)
 whichkey.register(mappings, opts)
+whichkey.register(mappings_v, opts_v)

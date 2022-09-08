@@ -168,13 +168,13 @@ lualine.setup({
 		},
 	},
 	tabline = {
-		lualine_a = {
-			{
-				"buffers",
-				mode = 0,
-				filetype_names = filetype_names,
-			},
-		},
+		-- lualine_a = {
+		-- 	{
+		-- 		"buffers",
+		-- 		mode = 0,
+		-- 		filetype_names = filetype_names,
+		-- 	},
+		-- },
 	},
 	extensions = {
 		"fzf",

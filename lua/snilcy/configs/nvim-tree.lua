@@ -9,7 +9,6 @@ return function()
 		-- },
 
 		-- -- will not open on setup if the filetype is in this list
-		-- -- -- TODO: Fix "update_focused_file"
 		-- -- update_focused_file = { enable = true },
 		-- filters = {
 		-- 	dotfiles = false,

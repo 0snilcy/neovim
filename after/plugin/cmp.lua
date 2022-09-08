@@ -1,39 +1,47 @@
--- require("utils").log("CMP", "WHO")
 local status, cmp = pcall(require, "cmp")
-if not status then
+if not status or not cmp then
 	return
 end
 
-vim.o.completeopt = "menu,menuone,noselect"
+local ONLY_VIRTUAL_TEXT = false
+local MAX_POPUP_ITEMS = 7
 
--- local has_words_before = function()
--- 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
--- 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
--- end
---
--- local use_lsp_config = false
+vim.o.completeopt = "menu,menuone,noselect"
+vim.o.pumheight = MAX_POPUP_ITEMS
+
 local lspkind = require("lspkind")
 local luasnip = require("luasnip")
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
+local ignored_filetypes = {
+	"spectre_panel",
+}
 
 local default_config = {
 	{ name = "nvim_lsp" },
+	{ name = "nvim_lsp_signature_help" },
+	{ name = "nvim_lua" },
 	{ name = "buffer" },
 	{ name = "path" },
-	{ name = "nvim_lua" },
 	{ name = "treesitter" },
 	{ name = "luasnip" },
-	{ name = "nvim_lsp_signature_help" },
 }
+
+local has_words_before = function()
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
 
 ---@diagnostic disable-next-line: redundant-parameter
 cmp.setup({
 	completion = {
 		-- completeopt = "menu,menuone,noinsert",
-		keyword_length = 1,
+		-- autocomplete = false
+		keyword_length = 2,
 	},
 	experimental = {
-		native_menu = false,
-		ghost_text = false,
+		-- native_menu = true,
+		ghost_text = true,
 	},
 	snippet = {
 		expand = function(args)
@@ -54,9 +62,9 @@ cmp.setup({
 				vim_item.menu = ({
 					nvim_lsp = "[LSP]",
 					buffer = "[Buffer]",
+					treesitter = "[Treesitter]",
 					luasnip = "[Snip]",
 					nvim_lua = "[Lua]",
-					treesitter = "[Treesitter]",
 					path = "[Path]",
 					nvim_lsp_signature_help = "[Signature]",
 				})[entry.source.name]
@@ -65,79 +73,47 @@ cmp.setup({
 		}),
 	},
 	mapping = {
-		["<C-k>"] = cmp.mapping(cmp.mapping.select_prev_item(), {
-			"i",
-			"c",
-		}),
-		["<C-j>"] = cmp.mapping(cmp.mapping.select_next_item(), {
-			"i",
-			"c",
-		}),
-		["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), {
-			"i",
-			"c",
-		}),
-		["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), {
-			"i",
-			"c",
-		}),
-		-- ["<C-Space>"] = cmp.mapping(function()
-		-- 	use_lsp_config = not use_lsp_config
-		-- 	return cmp.complete(use_lsp_config and lsp_config_full or default_config_full)
-		-- end),
-		["<C-e>"] = cmp.mapping(cmp.mapping.close(), {
-			"i",
-			"c",
-			"n",
-		}),
-
-		["<CR>"] = cmp.mapping({
-			i = cmp.mapping.confirm({
-				behavior = cmp.ConfirmBehavior.Replace,
-				select = true,
-			}),
-			c = function(fallback)
-				if cmp.visible() then
-					cmp.confirm({
-						behavior = cmp.ConfirmBehavior.Replace,
-						select = true,
-					})
-				else
-					fallback()
-				end
-			end,
-		}),
+		["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+		["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+		["<C-e>"] = cmp.mapping(cmp.mapping.close(), { "i", "c", "n" }),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
-				cmp.confirm({
-					behavior = cmp.ConfirmBehavior.Replace,
-					select = true,
+				cmp.select_next_item({
+					behavior = cmp.SelectBehavior.Select,
 				})
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			elseif has_words_before() then
+				cmp.complete()
 			else
 				fallback()
 			end
-		end, {
-			"i",
-			"s",
-			"c",
-		}),
+		end, { "i", "s", "c" }),
 		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
-				cmp.select_prev_item()
+				cmp.select_prev_item({
+					behavior = cmp.SelectBehavior.Select,
+				})
 			elseif luasnip.jumpable(-1) then
 				luasnip.jump(-1)
 			else
 				fallback()
 			end
-		end, {
-			"i",
-			"s",
-			"c",
+		end, { "i", "s", "c" }),
+		["<CR>"] = cmp.mapping({
+			i = cmp.mapping.confirm({
+				behavior = cmp.ConfirmBehavior.Replace,
+			}),
+			c = cmp.mapping.confirm({
+				behavior = cmp.ConfirmBehavior.Replace,
+				-- select = true,
+			}),
 		}),
 	},
 	sources = default_config,
 	window = {
-		documentation = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered({ zindex = 10000 }),
+		completion = cmp.config.window.bordered({ zindex = 10000 }),
 	},
 })
 
@@ -157,8 +133,6 @@ cmp.setup.cmdline(":", {
 	}),
 })
 
--- -- Auto pairs
-local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 cmp.event:on(
 	"confirm_done",
 	cmp_autopairs.on_confirm_done({
@@ -167,4 +141,50 @@ cmp.event:on(
 		},
 	})
 )
--- require("utils").log("CMPAFTER", "WHO")
+
+cmp.setup.filetype(ignored_filetypes, {
+	enabled = false,
+})
+
+-- if ONLY_VIRTUAL_TEXT then
+-- 	local is_complete_open = false
+-- 	local win_ids = {}
+
+-- 	_G.CMP_CALLBACK = function()
+-- 		if not is_complete_open then
+-- 			return
+-- 		end
+-- 		for win_id, params in pairs(win_ids) do
+-- 			vim.api.nvim_win_set_config(win_id, params.config)
+-- 			vim.api.nvim_win_set_option(win_id, "winhighlight", params.winhighlight)
+-- 		end
+-- 	end
+
+-- 	vim.api.nvim_set_keymap("i", "<C-k>", "<CMD>lua CMP_CALLBACK()<CR>", {})
+
+-- 	cmp.event:on("menu_opened", function(data)
+-- 		is_complete_open = true
+-- 		for _, value in pairs(data) do
+-- 			local win = value.entries_win
+-- 			local win_id = win.win
+-- 			local buf_id = vim.api.nvim_win_get_buf(win_id)
+-- 			local buf_lines_count = vim.api.nvim_buf_line_count(buf_id)
+
+-- 			win_ids[win_ids] = {
+-- 				config = vim.api.nvim_win_get_config(win_id),
+-- 				winhighlight = vim.api.nvim_win_get_option(win_id, "winhighlight"),
+-- 			}
+
+-- 			vim.api.nvim_win_set_config(win_id, {
+-- 				height = (MAX_POPUP_ITEMS > buf_lines_count) and MAX_POPUP_ITEMS or buf_lines_count,
+-- 				width = 1,
+-- 				border = "none",
+-- 			})
+-- 			vim.api.nvim_win_set_option(win_id, "winhighlight", "CursorLine:None")
+-- 		end
+-- 	end)
+
+-- 	cmp.event:on("menu_closed", function()
+-- 		is_complete_open = false
+-- 	end)
+-- end

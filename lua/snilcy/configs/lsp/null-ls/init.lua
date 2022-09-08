@@ -68,7 +68,11 @@ local sources = {
 	-- b.diagnostics.flake8,
 
 	-- lua
-	with_root_file(b.formatting.stylua, "stylua.toml"),
+	with_root_file(b.formatting.stylua, {
+		"stylua.toml",
+		"stylua.yml",
+		"stylua.yaml",
+	}),
 	with_root_file(b.diagnostics.selene, "selene.toml"),
 	-- b.diagnostics.selene.with({
 	-- 	cwd = function()
@@ -89,6 +93,10 @@ local sources = {
 
 	-- hover
 	-- b.hover.dictionary,
+	--
+
+	-- vimscript
+	b.diagnostics.vint,
 }
 
 function M.setup(opts)

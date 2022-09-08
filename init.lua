@@ -1,3 +1,3 @@
-require("snilcy.keymaps")
+require("utils")
 require("snilcy.settings")
 require("snilcy.plugins")

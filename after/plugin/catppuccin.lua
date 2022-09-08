@@ -3,6 +3,7 @@ if not status then
 	return
 end
 
+-- NOTE: why does't autowork?
 -- local color_palette = {
 -- 	rosewater = "#F5E0DC",
 -- 	flamingo = "#F2CDCD",
@@ -41,10 +42,18 @@ cp.none = "NONE"
 
 ---@diagnostic disable: need-check-nil
 local plugin_colors = {
-	NormalFloat = { bg = cp.mantle },
-	-- String = { bg = cp.red, fg = cp.red },
+	FloatTitle = { bg = cp.none, blend = 0 },
+	NormalFloat = { bg = cp.none, blend = 0 },
+	FloatBorder = { bg = cp.none, blend = 0 },
+	Folded = { fg = cp.blue, bg = cp.none },
+	-- Folded = { fg = cp.blue, bg = ucolors.darken(cp.surface0, 0.3, cp.base) },
+
 	Visual = { bg = cp.surface2, style = { "bold" } }, -- Visual mode selection
 	VisualNOS = { bg = cp.surface2, style = { "bold" } }, -- Visual mode selection when vim is "Not Owning the Selection".
+
+	-- Pmenu = { bg = cp.pink, fg = cp.yellow },
+	-- PmenuSel = { bg = cp.green, fg = cp.red },
+	-- CmpItemMenu = { bg = cp.green, fg = cp.red },
 
 	rainbowcol1 = { fg = cp.red },
 	rainbowcol2 = { fg = cp.teal },
@@ -55,13 +64,23 @@ local plugin_colors = {
 	rainbowcol7 = { fg = cp.green },
 
 	LspInlayHint = { fg = cp.surface2, bg = cp.none },
-	Folded = { fg = cp.blue, bg = ucolors.darken(cp.surface0, 0.3, cp.base) },
+
 	FidgetTitle = { fg = cp.surface2 },
 	FidgetTask = { fg = cp.surface2 },
+
+	WinSeparator = { fg = cp.surface1 },
+	-- CursorLine = { bg = ucolors.darken(cp.surface0, 0.5, cp.base), blend = 0 },
+
+	IndentBlanklineIndent6 = { blend = 0, fg = cp.surface1 },
+	IndentBlanklineIndent5 = { blend = 0, fg = cp.surface1 },
+	IndentBlanklineIndent4 = { blend = 0, fg = cp.surface1 },
+	IndentBlanklineIndent3 = { blend = 0, fg = cp.surface1 },
+	IndentBlanklineIndent2 = { blend = 0, fg = cp.surface1 },
+	IndentBlanklineIndent1 = { blend = 0, fg = cp.surface1 },
 }
 
 catppuccin.setup({
-	custom_highlights = vim.tbl_deep_extend("force", {}, lspsage_palette, plugin_colors),
+	custom_highlights = extend(lspsage_palette, plugin_colors),
 	dim_inactive = {
 		enabled = false,
 		shade = "dark",
@@ -147,10 +166,10 @@ catppuccin.setup({
 		-- 	enable_ui = false,
 		--  },
 		which_key = true,
-		-- indent_blankline = {
-		-- 	enabled = true,
-		-- 	colored_indent_levels = false,
-		--  },
+		indent_blankline = {
+			enabled = true,
+			colored_indent_levels = true,
+		},
 		-- dashboard = true,
 		-- neogit = false,
 		-- vim_sneak = false,

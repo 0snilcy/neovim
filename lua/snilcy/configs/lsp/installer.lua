@@ -86,10 +86,7 @@ function M.setup(options)
 		if server_available then
 			server:on_ready(function()
 				local server_settings = servers[server.name]
-				local opts = vim.tbl_deep_extend("force", options, server_settings or {})
-
-				-- local coq = require "coq"
-				-- server:setup(coq.lsp_ensure_capabilities(opts))
+				local opts = extend(options, server_settings)
 
 				if server.name == "tsserver" then
 					require("typescript").setup({

@@ -4,3 +4,7 @@ base: lua52
 globals:
   vim:
     any: true
+  extend: 
+    any: true
+  dump:
+    any: true
