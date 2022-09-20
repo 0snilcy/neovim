@@ -68,7 +68,7 @@ local plugin_colors = {
 	FidgetTitle = { fg = cp.surface2 },
 	FidgetTask = { fg = cp.surface2 },
 
-	WinSeparator = { fg = cp.surface1 },
+	WinSeparator = { fg = cp.surface0 },
 	-- CursorLine = { bg = ucolors.darken(cp.surface0, 0.5, cp.base), blend = 0 },
 
 	IndentBlanklineIndent6 = { blend = 0, fg = cp.surface1 },
@@ -77,6 +77,12 @@ local plugin_colors = {
 	IndentBlanklineIndent3 = { blend = 0, fg = cp.surface1 },
 	IndentBlanklineIndent2 = { blend = 0, fg = cp.surface1 },
 	IndentBlanklineIndent1 = { blend = 0, fg = cp.surface1 },
+
+	DiagnosticVirtualTextError = { fg = cp.surface2 },
+	DiagnosticVirtualTextWarn = { fg = cp.surface2 },
+	DiagnosticVirtualTextInfo = { fg = cp.surface2 },
+	DiagnosticVirtualTextHint = { fg = cp.surface2 },
+	-- DiagnosticVirtualTextError = { fg = cp.surface1 },
 }
 
 catppuccin.setup({

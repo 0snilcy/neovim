@@ -31,60 +31,78 @@ packer.init({
 	},
 })
 
--- TODO: Add auto reload
 packer.startup(function(use)
-	use({ "lewis6991/impatient.nvim" })
-	use({ "nathom/filetype.nvim" })
-
-	use({ "kyazdani42/nvim-web-devicons" })
-	use({ "nvim-lua/plenary.nvim", module = "plenary" })
-
-	use({ "rcarriga/nvim-notify" })
-	use({ "nvim-lua/popup.nvim" })
-	use({ "stevearc/dressing.nvim" })
-
-	use({ "junegunn/fzf", run = "./install --all" })
-	use({ "ibhagwan/fzf-lua" })
-
-	use({ "catppuccin/nvim", run = ":CatppuccinCompile" })
-
-	use({ "p00f/nvim-ts-rainbow" })
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-	use({ "SmiteshP/nvim-gps" })
-
-	use({ "nvim-lualine/lualine.nvim" })
-	use({ "folke/which-key.nvim" })
-	use({ "folke/trouble.nvim" })
-	use({ "folke/todo-comments.nvim" })
-	use({ "ms-jpq/chadtree", branch = "chad", run = "python3 -m chadtree deps" })
-	use({ "ggandor/lightspeed.nvim" })
-	use({ "norcalli/nvim-colorizer.lua" })
-	use({ "petertriho/nvim-scrollbar", module = "scrollbar" })
-	use({ "windwp/nvim-ts-autotag" })
-	use({ "numToStr/Comment.nvim" })
-	use({ "lukas-reineke/indent-blankline.nvim" })
-
-	use({ "goolord/alpha-nvim" })
-	use({ "Shatur/neovim-session-manager" })
-
-	use({ "anuvyklack/pretty-fold.nvim" })
-	use({ "anuvyklack/fold-preview.nvim", requires = "anuvyklack/keymap-amend.nvim" })
-	use({ "windwp/nvim-spectre" })
-	use({ "simrat39/symbols-outline.nvim" })
-	use({ "akinsho/bufferline.nvim", tag = "v2.*" })
-
-	use({ "tpope/vim-fugitive" })
-	use({ "idanarye/vim-merginal" })
-	use({ "rbong/vim-flog" })
-	use({ "TimUntersberger/neogit" })
-
+	-- utils
 	use({
-		"phaazon/hop.nvim",
-		config = function()
-			require("hop").setup({})
-		end,
+		{ "lewis6991/impatient.nvim" },
+		{ "nathom/filetype.nvim" },
+		{ "kyazdani42/nvim-web-devicons" },
+		{ "nvim-lua/plenary.nvim", module = "plenary" },
+		{ "rcarriga/nvim-notify" },
+		{ "nvim-lua/popup.nvim" },
+		{ "stevearc/dressing.nvim" },
+		{ "junegunn/fzf", run = "./install --all" },
+		{ "ibhagwan/fzf-lua" },
 	})
 
+	-- treesitter
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		requires = {
+			{ "p00f/nvim-ts-rainbow" },
+		},
+		run = ":TSUpdate",
+	})
+
+	-- components
+	use({
+		{ "catppuccin/nvim", run = ":CatppuccinCompile" },
+		{ "goolord/alpha-nvim" },
+		{ "Shatur/neovim-session-manager" },
+		{ "nvim-lualine/lualine.nvim", requires = "SmiteshP/nvim-gps" },
+		{ "akinsho/bufferline.nvim", tag = "v2.*" },
+		{ "folke/which-key.nvim" },
+		-- { "ms-jpq/chadtree", branch = "chad", run = "python3 -m chadtree deps" },
+		{ "kyazdani42/nvim-tree.lua", tag = "nightly" },
+	})
+
+	-- buffer
+	use({
+		-- functional
+		{ "simrat39/symbols-outline.nvim" },
+		{
+			"anuvyklack/pretty-fold.nvim",
+			requires = {
+				"anuvyklack/keymap-amend.nvim",
+				"anuvyklack/fold-preview.nvim",
+			},
+		},
+		{ "windwp/nvim-ts-autotag" },
+		{ "windwp/nvim-spectre" }, -- replacer
+		{ "folke/todo-comments.nvim" },
+		{ "folke/trouble.nvim" },
+		{ "numToStr/Comment.nvim" },
+		{ "phaazon/hop.nvim" },
+		{ "ggandor/lightspeed.nvim" },
+
+		-- visual
+		{ "lukas-reineke/indent-blankline.nvim" },
+		{ "norcalli/nvim-colorizer.lua" },
+		{ "petertriho/nvim-scrollbar", module = "scrollbar" },
+	})
+
+	-- git
+	use({
+		{ "tpope/vim-fugitive" },
+		{ "idanarye/vim-merginal" },
+		{ "rbong/vim-flog" },
+		{ "TimUntersberger/neogit" },
+		{ "kdheepak/lazygit.nvim" },
+		{ "sindrets/diffview.nvim" },
+		{ "tanvirtin/vgit.nvim" },
+	})
+
+	-- telescope
 	use({
 		"nvim-telescope/telescope.nvim",
 		wants = {
@@ -97,6 +115,7 @@ packer.startup(function(use)
 		},
 	})
 
+	-- cmp
 	use({
 		"hrsh7th/nvim-cmp",
 		requires = {
@@ -114,25 +133,26 @@ packer.startup(function(use)
 		},
 	})
 
+	-- lsp
 	use({
 		"neovim/nvim-lspconfig",
-		requires = {
-			"folke/lua-dev.nvim",
-			"williamboman/nvim-lsp-installer",
-			-- "ray-x/lsp_signature.nvim",
-			"RRethy/vim-illuminate",
-			"ThePrimeagen/refactoring.nvim",
-			"jose-elias-alvarez/null-ls.nvim",
-			"b0o/schemastore.nvim",
-			"jose-elias-alvarez/typescript.nvim",
-			"j-hui/fidget.nvim", -- nvim-lsp progress
-			"folke/lsp-colors.nvim",
-			"lvimuser/lsp-inlayhints.nvim",
-		},
 		config = function()
 			require("snilcy.configs.lsp").setup()
 		end,
+		requires = {
+			"folke/lua-dev.nvim",
+			"lvimuser/lsp-inlayhints.nvim",
+			-- "ray-x/lsp_signature.nvim",
+			"williamboman/nvim-lsp-installer",
+			"RRethy/vim-illuminate",
+			"ThePrimeagen/refactoring.nvim",
+			"jose-elias-alvarez/null-ls.nvim",
+			"j-hui/fidget.nvim",
+			"b0o/schemastore.nvim", -- nvim-lsp progress
+			"jose-elias-alvarez/typescript.nvim",
+			"folke/lsp-colors.nvim",
+		},
 	})
 
-	-- use 'wellle/targets.vim'
+	use({ "ziontee113/syntax-tree-surfer" })
 end)

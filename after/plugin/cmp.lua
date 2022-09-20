@@ -4,7 +4,7 @@ if not status or not cmp then
 end
 
 local ONLY_VIRTUAL_TEXT = false
-local MAX_POPUP_ITEMS = 7
+local MAX_POPUP_ITEMS = 10
 
 vim.o.completeopt = "menu,menuone,noselect"
 vim.o.pumheight = MAX_POPUP_ITEMS
@@ -37,7 +37,7 @@ cmp.setup({
 	completion = {
 		-- completeopt = "menu,menuone,noinsert",
 		-- autocomplete = false
-		keyword_length = 2,
+		keyword_length = 1,
 	},
 	experimental = {
 		-- native_menu = true,

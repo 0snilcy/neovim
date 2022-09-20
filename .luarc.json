@@ -1,5 +1,11 @@
 {
     "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
     "Lua.completion.autoRequire": false,
+    "Lua.diagnostics.globals": [
+        "vim",
+        "use",
+        "pairs",
+        "get_buf_win"
+    ],
     "Lua.workspace.checkThirdParty": false
 }

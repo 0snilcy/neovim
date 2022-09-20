@@ -1,11 +1,11 @@
 local M = {}
 
--- local format = {
--- 	[vim.diagnostic.severity.ERROR] = "Error",
--- 	[vim.diagnostic.severity.WARN] = "Warn",
--- 	[vim.diagnostic.severity.INFO] = "Info",
--- 	[vim.diagnostic.severity.HINT] = "Hint",
--- }
+local format = {
+	[vim.diagnostic.severity.ERROR] = "",
+	[vim.diagnostic.severity.WARN] = "",
+	[vim.diagnostic.severity.INFO] = "",
+	[vim.diagnostic.severity.HINT] = "",
+}
 
 function M.setup()
 	-- LSP handlers configuration
@@ -17,10 +17,12 @@ function M.setup()
 
 	local diagnostic_config = {
 		virtual_text = {
-			spacing = 5,
+			spacing = 0,
 			prefix = "",
 			format = function(diagnostic)
-				return string.format("(%s) %s [%s]", diagnostic.source, diagnostic.message, diagnostic.code)
+				-- return string.format("%s %s", format[diagnostic.severity], diagnostic.code)
+				return string.format("<- %s", diagnostic.code)
+				-- return string.format("[%s]", diagnostic.source, diagnostic.message, diagnostic.code)
 			end,
 		},
 		source = true,

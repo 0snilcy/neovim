@@ -1,3 +1,5 @@
+local on_win_filetype_open = require("utils.api").on_win_filetype_open
+
 local api = vim.api
 local cmd = vim.cmd
 
@@ -12,30 +14,22 @@ api.nvim_create_autocmd("FileType", {
 	command = [[nnoremap <buffer><silent> q :quit<CR>]],
 })
 
-api.nvim_create_autocmd({ "WinEnter" }, {
-	callback = function()
-		local wins = api.nvim_list_wins()
-		for _, win_id in ipairs(wins) do
-			local config = api.nvim_win_get_config(win_id)
-			-- print(data.event)
-			-- local is_float_window = not (config.zindex == nil)
-			local is_float_window = not (config.zindex == nil) and config.focusable
-			if is_float_window then
-				api.nvim_win_set_config(win_id, {
-					border = "rounded",
-				})
-			end
-		end
-	end,
-})
---
+on_win_filetype_open({
+	"null-ls-info",
+	"lspinfo",
+}, function(data)
+	api.nvim_win_set_config(data.window, {
+		border = "rounded",
+	})
+end)
+
 -- cmd([[
 --   filetype indent plugin on
 --   syntax enable
 -- ]])
 
 -- don't auto commenting new lines
-cmd([[au BufEnter * set fo-=c fo-=r fo-=o]])
+-- cmd([[au BufEnter * set fo-=c fo-=r fo-=o]])
 
 -- -- remove line lenght marker for selected filetypes
 -- cmd [[autocmd FileType text,markdown,html,xhtml,javascript setlocal cc=0]]
@@ -53,10 +47,10 @@ cmd([[
 
 -- This adds the ":DiffOrig" command.  Use this in a modified buffer to see the
 -- differences with the file it was loaded from.  See |diff| and |:DiffOrig|.
-cmd([[
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
-]])
+-- cmd([[
+--   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+-- 		  \ | wincmd p | diffthis
+-- ]])
 
 -- cmd([[ autocmd FileType c setlocal foldmethod=syntax ]])
 

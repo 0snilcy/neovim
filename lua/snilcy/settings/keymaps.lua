@@ -42,7 +42,7 @@ local map = {
 
 	-- visual
 	v = {
-		{ "p", '"_d"+P' }, -- Paste over currently selected text without yanking it
+		{ "p", '"_dP' }, -- Paste over currently selected text without yanking it
 		-- { "y", '"+y' },
 		-- { "d", '"+d' },
 	},

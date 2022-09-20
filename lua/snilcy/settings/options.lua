@@ -18,7 +18,7 @@ local opt = {
 	sidescrolloff = 10, -- same as above but for columns
 	-- shell = "/usr/local/bin/zsh",
 	-- inccommand = "nosplit", -- incremental search ( enabled by default )
-	updatetime = 100, -- timeout for showing cursorhold events, etc
+	updatetime = 300, -- timeout for showing cursorhold events, etc
 	-- completeopt = "menu,noinsert,noselect", -- how window for completion will look like
 	-- shortmess = vim.o.shortmess .. "s", -- better messages
 	hidden = true, -- TextEdit might fail if hidden is not set.
@@ -81,12 +81,12 @@ local opt = {
 		".",
 	}),
 	history = 100,
-	signcolumn = "no", -- nothing to the left of line number
+	signcolumn = "yes", -- nothing to the left of line number
 	foldnestmax = 10, -- deepest fold is 10 levels
 	foldenable = true, -- don't fold by default
 	foldmethod = "expr",
 	foldexpr = "nvim_treesitter#foldexpr()",
-	foldcolumn = "3",
+	foldcolumn = "0",
 	foldlevel = 99,
 	foldlevelstart = 99,
 	wrap = true, -- when line is longer than the screen, it continues on the next line
@@ -103,6 +103,7 @@ local opt = {
 	tabstop = 2, -- 1 tab == 4 spaces
 	autoindent = true,
 	smartindent = true, -- autoindent new lines
+	clipboard = "unnamedplus",
 }
 
 local g = {
@@ -116,7 +117,7 @@ local g = {
 			["+"] = "win32yank -o --lf",
 			["*"] = "win32yank -o --lf",
 		},
-		-- cache_enable = 0,
+		cache_enable = 0,
 	},
 }
 
