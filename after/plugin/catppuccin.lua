@@ -194,6 +194,7 @@ catppuccin.setup({
 		-- vimwiki = false,
 		-- beacon = false,
 		fidget = true,
+		-- colorscheme = "neon_latte",
 	},
 })
 
