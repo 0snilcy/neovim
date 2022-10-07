@@ -2,14 +2,31 @@ local M = {}
 
 -- Find a file either using git files or search the filesystem.
 function M.find_files()
+	local telescope = require("telescope.builtin")
+	local themes = require("telescope.themes")
+
 	local opts = {
 		hidden = true,
 		show_untracked = true,
 		search_dirs = {
 			vim.fn.getcwd(),
 		},
+
+		sorting_strategy = "ascending",
+
+		layout_strategy = "bottom_pane",
+		layout_config = {
+			height = 25,
+		},
+
+		border = true,
+		borderchars = {
+			prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
+			results = { " " },
+			preview = { " " },
+			-- preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+		},
 	}
-	local telescope = require("telescope.builtin")
 
 	-- local ok = pcall(telescope.git_files, opts)
 	-- if not ok then

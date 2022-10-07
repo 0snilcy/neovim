@@ -13,5 +13,9 @@ local g = {
 
 for key, val in pairs(g) do
 	-- vim.g[key] = val
+	-- local prev_value = vim.g[key]
+	-- dump(prev_value)
+	-- local is_table = type(prev_value) == "table"
+	-- vim.api.nvim_set_var(key, is_table and extend(prev_value, val) or val)
 	vim.api.nvim_set_var(key, val)
 end

@@ -31,7 +31,7 @@ local sources = {
 	b.code_actions.refactoring,
 
 	-- shell
-	-- b.formatting.shfmt,
+	b.formatting.shfmt,
 	b.formatting.beautysh,
 	with_diagnostics_code(b.diagnostics.shellcheck),
 	with_diagnostics_code(b.diagnostics.zsh),
@@ -97,6 +97,9 @@ local sources = {
 
 	-- vimscript
 	b.diagnostics.vint,
+
+	-- toml
+	b.formatting.taplo,
 }
 
 function M.setup(opts)

@@ -3,58 +3,31 @@ if not status or not cmp then
 	return
 end
 
-local ONLY_VIRTUAL_TEXT = false
-local MAX_POPUP_ITEMS = 10
+require("snilcy.configs.cmp.snippets")
+
+local MAX_POPUP_ITEMS = 15
 
 vim.o.completeopt = "menu,menuone,noselect"
 vim.o.pumheight = MAX_POPUP_ITEMS
 
-local lspkind = require("lspkind")
 local luasnip = require("luasnip")
-local ls = require("luasnip")
-local s = ls.snippet
-local sn = ls.snippet_node
-local isn = ls.indent_snippet_node
-local t = ls.text_node
-local i = ls.insert_node
-local f = ls.function_node
-local c = ls.choice_node
-local d = ls.dynamic_node
-local r = ls.restore_node
-local events = require("luasnip.util.events")
-local ai = require("luasnip.nodes.absolute_indexer")
-local fmt = require("luasnip.extras.fmt").fmt
-local extras = require("luasnip.extras")
-local m = extras.m
-local l = extras.l
-local rep = extras.rep
-local postfix = require("luasnip.extras.postfix").postfix
+local lspkind = require("lspkind")
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
 require("luasnip.loaders.from_vscode").lazy_load()
-
-luasnip.add_snippets("javascript", {
-	s("log", {
-		t("console.log('"),
-		i(1, "name"),
-		t("', "),
-		i(2, "value"),
-		t(")"),
-	}),
-})
-
--- luasnip.config.set_config({
--- 	enable_autosnippets = true,
--- 	history = true,
--- 	updateevents = "TextChanged,TextChangedI",
--- })
-
-local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
 local ignored_filetypes = {
 	"spectre_panel",
 	"conf",
 	"tmux",
 	"zsh",
+	"sh",
+}
+
+local enabled_filetypes = {
+	"lua",
+	"javascript",
+	"typescript",
 }
 
 local default_config = {
@@ -74,6 +47,10 @@ end
 
 ---@diagnostic disable-next-line: redundant-parameter
 cmp.setup({
+	enabled = true,
+	-- enabled = function()
+
+	--  end,
 	completion = {
 		-- completeopt = "menu,menuone,noinsert",
 		-- autocomplete = false
@@ -152,13 +129,20 @@ cmp.setup({
 	},
 	sources = default_config,
 	window = {
-		documentation = cmp.config.window.bordered({ zindex = 10000 }),
-		completion = cmp.config.window.bordered({ zindex = 10000 }),
+		documentation = cmp.config.window.bordered({
+			zindex = 1000,
+			winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+		}),
+		completion = cmp.config.window.bordered({
+			zindex = 1000,
+			winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+		}),
 	},
 })
 
 -- Use buffer source for `/`
 cmp.setup.cmdline("/", {
+	enabled = true,
 	sources = {
 		{ name = "buffer" },
 	},
@@ -166,6 +150,7 @@ cmp.setup.cmdline("/", {
 
 -- Use cmdline & path source for ':'
 cmp.setup.cmdline(":", {
+	enabled = true,
 	sources = cmp.config.sources({
 		{ name = "path" },
 	}, {
@@ -182,49 +167,6 @@ cmp.event:on(
 	})
 )
 
-cmp.setup.filetype(ignored_filetypes, {
-	enabled = false,
-})
-
--- if ONLY_VIRTUAL_TEXT then
--- 	local is_complete_open = false
--- 	local win_ids = {}
-
--- 	_G.CMP_CALLBACK = function()
--- 		if not is_complete_open then
--- 			return
--- 		end
--- 		for win_id, params in pairs(win_ids) do
--- 			vim.api.nvim_win_set_config(win_id, params.config)
--- 			vim.api.nvim_win_set_option(win_id, "winhighlight", params.winhighlight)
--- 		end
--- 	end
-
--- 	vim.api.nvim_set_keymap("i", "<C-k>", "<CMD>lua CMP_CALLBACK()<CR>", {})
-
--- 	cmp.event:on("menu_opened", function(data)
--- 		is_complete_open = true
--- 		for _, value in pairs(data) do
--- 			local win = value.entries_win
--- 			local win_id = win.win
--- 			local buf_id = vim.api.nvim_win_get_buf(win_id)
--- 			local buf_lines_count = vim.api.nvim_buf_line_count(buf_id)
-
--- 			win_ids[win_ids] = {
--- 				config = vim.api.nvim_win_get_config(win_id),
--- 				winhighlight = vim.api.nvim_win_get_option(win_id, "winhighlight"),
--- 			}
-
--- 			vim.api.nvim_win_set_config(win_id, {
--- 				height = (MAX_POPUP_ITEMS > buf_lines_count) and MAX_POPUP_ITEMS or buf_lines_count,
--- 				width = 1,
--- 				border = "none",
--- 			})
--- 			vim.api.nvim_win_set_option(win_id, "winhighlight", "CursorLine:None")
--- 		end
--- 	end)
-
--- 	cmp.event:on("menu_closed", function()
--- 		is_complete_open = false
--- 	end)
--- end
+-- cmp.setup.filetype(enabled_filetypes, {
+-- 	enabled = true,
+-- })

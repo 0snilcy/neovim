@@ -60,7 +60,7 @@ packer.startup(function(use)
 		{ "goolord/alpha-nvim" },
 		{ "Shatur/neovim-session-manager" },
 		{ "nvim-lualine/lualine.nvim", requires = "SmiteshP/nvim-gps" },
-		{ "akinsho/bufferline.nvim", tag = "v2.*" },
+		{ "akinsho/bufferline.nvim", tag = "v2.*", requires = "tiagovla/scope.nvim" },
 		{ "folke/which-key.nvim" },
 		-- { "ms-jpq/chadtree", branch = "chad", run = "python3 -m chadtree deps" },
 		{ "kyazdani42/nvim-tree.lua", tag = "nightly" },
@@ -154,5 +154,7 @@ packer.startup(function(use)
 		},
 	})
 
+	use({ "segeljakt/vim-silicon" })
 	use({ "ziontee113/syntax-tree-surfer" })
+	-- use({ "krivahtoo/silicon.nvim" })
 end)

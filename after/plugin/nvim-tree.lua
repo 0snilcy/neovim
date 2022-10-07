@@ -28,4 +28,9 @@ tree.setup({
 		group_empty = true,
 		highlight_opened_files = "all",
 	},
+	actions = {
+		open_file = {
+			quit_on_open = true,
+		},
+	},
 })

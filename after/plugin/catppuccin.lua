@@ -44,7 +44,7 @@ cp.none = "NONE"
 local plugin_colors = {
 	FloatTitle = { bg = cp.none, blend = 0 },
 	NormalFloat = { bg = cp.none, blend = 0 },
-	FloatBorder = { bg = cp.none, blend = 0 },
+	FloatBorder = { bg = cp.none, blend = 0, fg = cp.surface2 },
 	Folded = { fg = cp.blue, bg = cp.none },
 	-- Folded = { fg = cp.blue, bg = ucolors.darken(cp.surface0, 0.3, cp.base) },
 
@@ -54,6 +54,7 @@ local plugin_colors = {
 	-- Pmenu = { bg = cp.pink, fg = cp.yellow },
 	-- PmenuSel = { bg = cp.green, fg = cp.red },
 	-- CmpItemMenu = { bg = cp.green, fg = cp.red },
+	PmenuThumb = { bg = cp.surface2 },
 
 	rainbowcol1 = { fg = cp.red },
 	rainbowcol2 = { fg = cp.teal },
@@ -194,7 +195,7 @@ catppuccin.setup({
 		-- vimwiki = false,
 		-- beacon = false,
 		fidget = true,
-		-- colorscheme = "neon_latte",
+		colorscheme = "neon_latte",
 	},
 })
 

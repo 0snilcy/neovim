@@ -7,8 +7,9 @@ local map = {
 		{ "<C-s>", "<Esc>:w!<CR>", { "n", "i" } },
 		{ "<A-s>", "<Esc>:w!<CR>", { "n", "i" } },
 
-		{ "<C-q>", "<Esc>:wqall!<CR>" },
+		{ "<C-q>", "<Esc>:wall!<CR>:SessionManager save_current_session<CR>:%bdelete!<CR>:qall!<CR>" },
 		{ "<C-w>", "<Esc>:bdelete!<CR>" },
+		-- { "<A-q>", ":TroubleClose<CR>:NvimTreeClose<CR>" },
 
 		{ "<A-Up>", ":wincmd k<CR>" },
 		{ "<A-Down>", ":wincmd j<CR>" },
@@ -26,8 +27,10 @@ local map = {
 
 	-- normal
 	n = {
-		{ "<A-j>", ":bprev<CR>" },
-		{ "<A-k>", ":bnext<CR>" },
+		{ "<A-j>", ":BufferLineCyclePrev<CR>" },
+		{ "<A-k>", ":BufferLineCycleNext<CR>" },
+		{ "<S-A-j>", ":tabnext<CR>" },
+		{ "<S-A-k>", ":tabprev<CR>" },
 		{ "<ESC>", ":nohlsearch<Bar>:echo<CR>" }, -- Cancel search highlighting with ESC
 		{ "<C-j>", "<C-e>" },
 		{ "<C-k>", "<C-y>" },

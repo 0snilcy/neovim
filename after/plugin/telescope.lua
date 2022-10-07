@@ -11,7 +11,7 @@ local nvb_actions = transform_mod({
 		local full_path = content.cwd .. require("plenary.path").path.sep .. content.value
 
 		-- Yank the path to unnamed register
-		vim.fn.setreg("\"", full_path)
+		vim.fn.setreg('"', full_path)
 
 		-- Close the popup
 		require("utils").info("File path is yanked ")
@@ -24,7 +24,7 @@ local nvb_actions = transform_mod({
 		--
 
 		-- Yank the path to unnamed register
-		vim.fn.setreg("\"", content.value)
+		vim.fn.setreg('"', content.value)
 
 		-- Close the popup
 		require("utils").info("Content is yanked ")
@@ -47,15 +47,20 @@ telescope.setup({
 		-- },
 		color_devicons = true,
 		sorting_strategy = "ascending",
-		layout_strategy = "horizontal",
+		layout_strategy = "bottom_pane",
 		initial_mode = "insert",
 		prompt_prefix = "",
 		selection_caret = "⇨ ",
-		layout_config = {
-			horizontal = {
-				prompt_position = "top",
-			},
-		},
+		-- layout_config = {
+		-- 	horizontal = {
+		-- 		-- prompt_position = "top",
+		-- 	},
+		-- 	bottom_pane = {
+		-- 		border = false,
+		-- 		-- prompt_position = "bottom",
+		-- 		-- borderchars = { "" },
+		-- 	},
+		-- },
 		file_ignore_patterns = {
 			-- "*.bak",
 			-- ".git",
@@ -87,7 +92,11 @@ telescope.setup({
 						stdout_buffered = true,
 					})
 				else
-					require("telescope.previewers.utils").set_preview_message(bufnr, opts.winid, "Binary cannot be previewed")
+					require("telescope.previewers.utils").set_preview_message(
+						bufnr,
+						opts.winid,
+						"Binary cannot be previewed"
+					)
 				end
 			end,
 		},
@@ -97,6 +106,10 @@ telescope.setup({
 				["<C-k>"] = actions.move_selection_previous,
 				["<C-n>"] = actions.cycle_history_next,
 				["<C-p>"] = actions.cycle_history_prev,
+				["<C-q>"] = actions.close,
+			},
+			n = {
+				["q"] = actions.close,
 			},
 		},
 	},

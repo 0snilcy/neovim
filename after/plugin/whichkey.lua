@@ -86,13 +86,15 @@ local mappings = {
 		b = { ":lua require('utils.finder').find_buffers()<CR>", "Buffers grep" },
 		f = { ":lua require('utils.finder').find_files()<CR>", "File search" },
 		F = { ":Telescope file_browser<CR>", "File browser" },
-		a = { ":NvimTreeOpen<CR>", "Sidebar open" },
+		a = { ":NvimTreeOpen<CR>", "Sidebar toggle" },
 		A = { ":NvimTreeClose<CR>", "Sidebar close" },
 		g = { ":Telescope live_grep<CR>", "Grep" },
 		s = { ":Telescope lsp_dynamic_workspace_symbols<CR>", "Symbols" },
-		d = { ":Trouble workspace_diagnostics<CR>", "Diagnostics" },
+		T = { ":Trouble workspace_diagnostics<CR>", "Diagnostics" },
+		d = { ":TodoTrouble<CR>", "TODO" },
 		r = { ":lua require('spectre').open()<CR>", "Replace" },
-		t = { ":TodoTrouble<CR>", "TODO" },
+		t = { ":terminal<CR>", "Terminal" },
+		G = { ":LazyGit<CR>", "Git" },
 	},
 
 	h = {
