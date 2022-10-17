@@ -48,8 +48,8 @@ local plugin_colors = {
 	Folded = { fg = cp.blue, bg = cp.none },
 	-- Folded = { fg = cp.blue, bg = ucolors.darken(cp.surface0, 0.3, cp.base) },
 
-	Visual = { bg = cp.surface2, style = { "bold" } }, -- Visual mode selection
-	VisualNOS = { bg = cp.surface2, style = { "bold" } }, -- Visual mode selection when vim is "Not Owning the Selection".
+	Visual = { bg = cp.surface2, style = {} }, -- Visual mode selection
+	VisualNOS = { bg = cp.surface2, style = {} }, -- Visual mode selection when vim is "Not Owning the Selection".
 
 	-- Pmenu = { bg = cp.pink, fg = cp.yellow },
 	-- PmenuSel = { bg = cp.green, fg = cp.red },
@@ -87,7 +87,7 @@ local plugin_colors = {
 }
 
 catppuccin.setup({
-	custom_highlights = extend(lspsage_palette, plugin_colors),
+	-- custom_highlights = extend(lspsage_palette, plugin_colors),
 	dim_inactive = {
 		enabled = false,
 		shade = "dark",
@@ -161,7 +161,7 @@ catppuccin.setup({
 		nvimtree = {
 			enabled = false,
 			-- 	show_root = true,
-			transparent_panel = true,
+			-- transparent_panel = true,
 		},
 		-- neotree = {
 		-- 	enabled = false,
@@ -198,6 +198,10 @@ catppuccin.setup({
 		colorscheme = "neon_latte",
 	},
 })
+
+-- vim.g.neovide_transparency = 0.9
+-- vim.g.transparency = 0.8
+-- vim.cmd("g:neovide_background_color = '#0f1117'.printf('%', float2nr(255 * g:transparency))")
 
 vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 vim.cmd([[colorscheme catppuccin]])

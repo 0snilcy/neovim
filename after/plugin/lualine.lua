@@ -97,7 +97,7 @@ local gps = require("nvim-gps")
 lualine.setup({
 	options = {
 		icons_enabled = true,
-		theme = "catppuccin",
+		theme = "kanagawa",
 		component_separators = {
 			left = "",
 			right = "",

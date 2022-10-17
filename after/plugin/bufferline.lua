@@ -3,15 +3,37 @@ if not status then
 	return
 end
 
-vim.opt.termguicolors = true
+-- vim.opt.termguicolors = true
 
-local cp = require("catppuccin.palettes").get_palette()
+-- local cp = require("catppuccin.palettes").get_palette()
+local groups = require("bufferline.groups")
+local cp = require("kanagawa.colors").setup()
 
 bufferline.setup({
 	options = {
+		name_formatter = function(buf) -- buf contains:
+			-- name                | str        | the basename of the active file
+			-- path                | str        | the full path of the active file
+			-- bufnr (buffer only) | int        | the number of the active buffer
+			-- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
+			-- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
+			-- dump(buf)
+		end,
+		groups = {
+			items = {
+				{
+					name = "zsh",
+					priority = 1,
+					matcher = function(buf) -- Mandatory
+						return buf.path:match("^term://")
+					end,
+				},
+				groups.builtin.ungrouped,
+			},
+		},
 		themable = true,
 		numbers = "none",
-		diagnostics = "none",
+		diagnostics = false,
 		-- diagnostics_indicator = function(count, level)
 		-- 	local icon = level:match("error") and " " or ""
 		-- 	return " " .. icon .. count
@@ -33,20 +55,17 @@ bufferline.setup({
 			-- },
 		},
 		indicator = {
-			-- icon = "",
 			style = "none",
 		},
 		-- left_trunc_marker = "",
 		-- right_trunc_marker = "",
 	},
 	highlights = {
-		buffer = {
-			fg = cp.red,
-			bg = cp.green,
+		background = {
+			fg = cp.springViolet1,
 		},
-		-- buffer_visible = {
-		-- 	fg = cp.red,
-		-- 	bg = cp.green,
-		-- },
+		separator = {
+			fg = cp.springViolet1,
+		},
 	},
 })

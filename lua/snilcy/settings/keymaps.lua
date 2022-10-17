@@ -23,6 +23,8 @@ local map = {
 
 		{ "<A-o>", "o<Esc>" },
 		{ "<A-O>", "O<Esc>" },
+		-- { "<C-c>", "y" },
+		-- { "<C-v>", "p" },
 	},
 
 	-- normal
@@ -31,7 +33,7 @@ local map = {
 		{ "<A-k>", ":BufferLineCycleNext<CR>" },
 		{ "<S-A-j>", ":tabnext<CR>" },
 		{ "<S-A-k>", ":tabprev<CR>" },
-		{ "<ESC>", ":nohlsearch<Bar>:echo<CR>" }, -- Cancel search highlighting with ESC
+		-- { "<ESC>", ":nohlsearch<Bar>:echo<CR>" }, -- Cancel search highlighting with ESC
 		{ "<C-j>", "<C-e>" },
 		{ "<C-k>", "<C-y>" },
 		{ "K", ":lua vim.lsp.buf.hover()<CR>" },
@@ -53,6 +55,12 @@ local map = {
 	-- terminal
 	t = {
 		{ "<A-j>", "<C-\\><C-n>" },
+		{ "<A-k>", "<C-\\><C-n>" },
+	},
+
+	c = {
+		-- { "<C-c>", "y" },
+		-- { "<C-v>", "<C-r>*" },
 	},
 
 	-- map("", "<C-c>", "\"+")

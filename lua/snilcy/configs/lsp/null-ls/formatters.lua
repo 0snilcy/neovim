@@ -1,8 +1,8 @@
 local M = {}
 
-local utils = require "utils"
-local nls_utils = require "snilcy.configs.lsp.null-ls.utils"
-local nls_sources = require "null-ls.sources"
+local utils = require("utils")
+local nls_utils = require("snilcy.configs.lsp.null-ls.utils")
+local nls_sources = require("null-ls.sources")
 
 local method = require("null-ls").methods.FORMATTING
 
@@ -19,7 +19,7 @@ end
 
 function M.format()
 	if M.autoformat then
-		vim.lsp.buf.formatting_sync(nil, 2000)
+		vim.lsp.buf.format(nil, 2000)
 	end
 end
 
@@ -33,15 +33,16 @@ function M.setup(client, buf)
 		enable = not (client.name == "null-ls")
 	end
 
-	client.resolved_capabilities.document_formatting = enable
-	client.resolved_capabilities.document_range_formatting = enable
-	if client.resolved_capabilities.document_formatting then
-		vim.cmd [[
+	-- dump(client.server_capabilities)
+	client.server_capabilities.documentFormattingProvider = enable
+	client.server_capabilities.documentRangeFormattingProvider = enable
+	if client.server_capabilities.documentFormattingProvider then
+		vim.cmd([[
       augroup LspFormat
         autocmd! * <buffer>
         autocmd BufWritePre <buffer> lua require("snilcy.configs.lsp.null-ls.formatters").format()
       augroup END
-    ]]
+    ]])
 	end
 end
 
@@ -62,4 +63,3 @@ function M.list_supported(filetype)
 end
 
 return M
-

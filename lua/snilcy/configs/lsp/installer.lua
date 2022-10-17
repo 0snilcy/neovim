@@ -1,6 +1,5 @@
 local lsp_installer = require("nvim-lsp-installer")
 local lsp_installer_servers = require("nvim-lsp-installer.servers")
-local utils = require("utils")
 
 lsp_installer.settings({
 	ui = {
@@ -100,11 +99,11 @@ function M.setup(options)
 			end)
 
 			if not server:is_installed() then
-				utils.info("Installing " .. server.name)
+				info("Installing " .. server.name)
 				server:install()
 			end
 		else
-			utils.error(server)
+			error(server)
 		end
 	end
 end
