@@ -12,6 +12,7 @@ local luasnip = require("luasnip")
 local lspkind = require("lspkind")
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
+-- TODO: Doesn't work
 require("snilcy.configs.cmp.snippets")
 require("luasnip.loaders.from_vscode").lazy_load()
 

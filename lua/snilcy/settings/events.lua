@@ -5,22 +5,23 @@ local cmd = vim.cmd
 
 -- windows to close with "q"
 api.nvim_create_autocmd("FileType", {
-	pattern = { "help", "startuptime", "qf", "lspinfo" },
-	command = [[nnoremap <buffer><silent> q :close<CR>]],
+  pattern = { "help", "startuptime", "qf", "lspinfo" },
+  command = [[nnoremap <buffer><silent> q :close<CR>]],
 })
 
 api.nvim_create_autocmd("FileType", {
-	pattern = "man",
-	command = [[nnoremap <buffer><silent> q :quit<CR>]],
+  pattern = "man",
+  command = [[nnoremap <buffer><silent> q :quit<CR>]],
 })
 
 on_win_filetype_open({
-	"null-ls-info",
-	"lspinfo",
+  "null-ls-info",
+  "lspinfo",
+  "mason",
 }, function(data)
-	api.nvim_win_set_config(data.window, {
-		border = "rounded",
-	})
+  api.nvim_win_set_config(data.window, {
+    border = "rounded",
+  })
 end)
 
 -- cmd([[

@@ -6,11 +6,10 @@ end
 local cp = require("kanagawa.colors").setup()
 cp.none = "NONE"
 
-
 local overrides = {
   FloatTitle = { bg = cp.none, blend = 0 },
   NormalFloat = { bg = cp.none, blend = 0 },
-  FloatBorder = { bg = cp.none, blend = 0, fg = cp.springViolet1 },
+  FloatBorder = { bg = cp.none, blend = 0, fg = cp.red },
   -- Folded = { fg = cp.blue, bg = cp.none },
 
   -- Visual = { bg = cp.surface2, style = {} }, -- Visual mode selection
@@ -39,13 +38,16 @@ local overrides = {
   LspInlayHint = { fg = cp.springViolet1, bg = cp.none },
   FidgetTitle = { fg = cp.springViolet1 },
   FidgetTask = { fg = cp.springViolet1 },
-  WinSeparator = { fg = cp.springViolet1 },
+  WinSeparator = { fg = cp.sumiInk3 },
   -- CursorLine = { bg = ucolors.darken(cp.surface0, 0.5, cp.base), blend = 0 },
 
-  DiagnosticVirtualTextError = { fg = cp.fujiGray },
-  DiagnosticVirtualTextWarn = { fg = cp.fujiGray },
-  DiagnosticVirtualTextInfo = { fg = cp.fujiGray },
-  DiagnosticVirtualTextHint = { fg = cp.fujiGray },
+  -- DiagnosticVirtualTextError = { fg = cp.fujiGray },
+  -- DiagnosticVirtualTextWarn = { fg = cp.fujiGray },
+  -- DiagnosticVirtualTextInfo = { fg = cp.fujiGray },
+  -- DiagnosticVirtualTextHint = { fg = cp.fujiGray },
+
+  NeoTreeTabActive = { fg = cp.fujiWhite },
+  NeoTreeTabInactive = { fg = cp.fujiGray },
 }
 
 kanagawa.setup({

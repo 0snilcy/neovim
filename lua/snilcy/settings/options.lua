@@ -105,15 +105,22 @@ local opt = {
   autoindent = true,
   smartindent = true, -- autoindent new lines
   clipboard = "unnamedplus",
+  guifont = {
+    "JetBrainsMono NF",
+    ":h10",
+  }
 }
 
-local g = {
-}
-
+-- local g = {
+-- }
 
 for key, val in pairs(opt) do
   vim.opt[key] = val
 end
-for key, val in pairs(g) do
-  vim.g[key] = val
+-- for key, val in pairs(g) do
+--   vim.g[key] = val
+-- end
+
+if vim.g.neovide then
+  vim.keymap.set("", "<A-Enter>", ":lua vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen<CR>")
 end

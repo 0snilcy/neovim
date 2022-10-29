@@ -1,13 +1,4 @@
-local lsp_installer = require("nvim-lsp-installer")
-local lsp_installer_servers = require("nvim-lsp-installer.servers")
-
-lsp_installer.settings({
-  ui = {
-    border = "rounded",
-  },
-})
-
-local servers = {
+return {
   gopls = {},
   html = {},
   jsonls = {
@@ -46,6 +37,7 @@ local servers = {
     },
   },
   tsserver = {
+    disable_formatting = true,
     settings = {
       javascript = {
         inlayHints = {
@@ -75,37 +67,3 @@ local servers = {
   bashls = {},
   emmet_ls = {},
 }
-
-local M = {}
-
-function M.setup(options)
-  for server_name, _ in pairs(servers) do
-    local server_available, server = lsp_installer_servers.get_server(server_name)
-
-    if server_available then
-      server:on_ready(function()
-        local server_settings = servers[server.name]
-        local opts = extend(options, server_settings)
-
-        if server.name == "tsserver" then
-          require("typescript").setup({
-            disable_commands = false,
-            debug = false,
-            server = opts,
-          })
-        else
-          server:setup(opts or {})
-        end
-      end)
-
-      if not server:is_installed() then
-        info("Installing " .. server.name)
-        server:install()
-      end
-    else
-      error(server)
-    end
-  end
-end
-
-return M

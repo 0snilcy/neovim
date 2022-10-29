@@ -4,6 +4,7 @@ if not status then
 end
 
 
+-- TODO: transparent borders?
 local transform_mod = require("telescope.actions.mt").transform_mod
 local nvb_actions = transform_mod({
   file_path = function(prompt_bufnr)

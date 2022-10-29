@@ -1,5 +1,5 @@
 vim.filetype.add({
-  extension = {
-    -- foo = "fooscript",
+  pattern = {
+    ['.env*'] = "dot",
   },
 })

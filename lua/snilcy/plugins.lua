@@ -23,6 +23,7 @@ packer.init({
     package_root = util.join_paths(vim.fn.stdpath("data"), "site", "pack"),
   },
   display = {
+    prompt_border = "rounded",
     open_fn = function()
       return require("packer.util").float({
         border = "rounded",
@@ -35,11 +36,11 @@ packer.startup(function(use)
   -- utils
   use({
     { "lewis6991/impatient.nvim" },
-    -- { "nathom/filetype.nvim" },
     { "kyazdani42/nvim-web-devicons" },
     { "nvim-lua/plenary.nvim", module = "plenary" },
     { "rcarriga/nvim-notify" },
     { "nvim-lua/popup.nvim" },
+    { "MunifTanjim/nui.nvim" },
     { "stevearc/dressing.nvim" },
     { "junegunn/fzf", run = "./install --all" },
     { "ibhagwan/fzf-lua" },
@@ -56,7 +57,6 @@ packer.startup(function(use)
 
   -- components
   use({
-    -- { "catppuccin/nvim", run = ":CatppuccinCompile" },
     { "rebelot/kanagawa.nvim" },
     { "goolord/alpha-nvim" },
     { "Shatur/neovim-session-manager" },
@@ -64,11 +64,12 @@ packer.startup(function(use)
     {
       "akinsho/bufferline.nvim",
       tag = "v2.*",
-      -- requires = "tiagovla/scope.nvim",
     },
     { "folke/which-key.nvim" },
+    { "nvim-neo-tree/neo-tree.nvim", branch = "v2.x" },
     -- { "ms-jpq/chadtree", branch = "chad", run = "python3 -m chadtree deps" },
-    { "kyazdani42/nvim-tree.lua", tag = "nightly" },
+    -- { "kyazdani42/nvim-tree.lua", tag = "nightly" },
+    -- { "catppuccin/nvim", run = ":CatppuccinCompile" },
   })
 
   -- buffer
@@ -96,18 +97,25 @@ packer.startup(function(use)
     { "petertriho/nvim-scrollbar", module = "scrollbar" },
   })
 
-  -- git
+  -- -- git
   use({
+    { "kdheepak/lazygit.nvim" },
+    { "tanvirtin/vgit.nvim" },
     { "tpope/vim-fugitive" },
     { "idanarye/vim-merginal" },
     { "rbong/vim-flog" },
     { "TimUntersberger/neogit" },
-    { "kdheepak/lazygit.nvim" },
     { "sindrets/diffview.nvim" },
-    { "tanvirtin/vgit.nvim" },
+    {
+      "akinsho/git-conflict.nvim",
+      tag = "*",
+      config = function()
+        require("git-conflict").setup()
+      end,
+    },
   })
 
-  -- telescope
+  -- -- telescope
   use({
     "nvim-telescope/telescope.nvim",
     wants = {
@@ -120,7 +128,7 @@ packer.startup(function(use)
     },
   })
 
-  -- cmp
+  -- -- cmp
   use({
     "hrsh7th/nvim-cmp",
     requires = {
@@ -138,17 +146,18 @@ packer.startup(function(use)
     },
   })
 
-  -- lsp
+  -- -- lsp
   use({
     "neovim/nvim-lspconfig",
     config = function()
       require("snilcy.configs.lsp").setup()
     end,
     requires = {
-      "folke/lua-dev.nvim",
+      "folke/neodev.nvim",
+      -- "folke/lua-dev.nvim",
       "lvimuser/lsp-inlayhints.nvim",
       -- "ray-x/lsp_signature.nvim",
-      "williamboman/nvim-lsp-installer",
+      -- "williamboman/nvim-lsp-installer",
       -- "RRethy/vim-illuminate",
       "ThePrimeagen/refactoring.nvim",
       "jose-elias-alvarez/null-ls.nvim",
@@ -156,6 +165,10 @@ packer.startup(function(use)
       "b0o/schemastore.nvim", -- nvim-lsp progress
       "jose-elias-alvarez/typescript.nvim",
       "folke/lsp-colors.nvim",
+
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
     },
   })
 
